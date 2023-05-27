@@ -24,48 +24,55 @@ abstract class AppTheme {
 
 /// Light theme
 final _lightThemeData = ThemeData.light().copyWith(
-  colorScheme: const ColorScheme.dark(
+  colorScheme: const ColorScheme.light(
     /* primary */
-    primary: _AppColors.kPrimary,
-    onPrimary: _AppColors.kOnPrimary,
-    primaryContainer: _AppColors.kPrimaryContainer,
+    primary: AppColors.kPrimary,
+    onPrimary: AppColors.kOnPrimary,
+    primaryContainer: AppColors.kPrimaryContainer,
+    onPrimaryContainer: AppColors.kOnPrimaryContainer,
 
-    /* secondary */
-    secondary: _AppColors.kSecondary,
-    onSecondary: _AppColors.kOnSecondary,
-    secondaryContainer: _AppColors.kSecondaryContainer,
+    /* primary */
+    secondary: AppColors.kSecondary,
+    onSecondary: AppColors.kOnSecondary,
 
     /* tertiary */
-    tertiary: _AppColors.kTertiary,
-    onTertiary: _AppColors.kOnTertiary,
+    tertiary: AppColors.kTertiary,
+    onTertiary: AppColors.kOnTertiary,
 
     /* background colors */
-    background: _AppColors.kBg,
+    background: AppColors.kBg,
 
     /* statuses */
-    error: _AppColors.kError,
+    error: AppColors.kError,
   ),
+  /* Widget colors */
+  scaffoldBackgroundColor: AppColors.kBg,
 
   /* status colors */
-  disabledColor: _AppColors.kDisabled,
+  disabledColor: AppColors.kDisabled,
   textTheme: const TextTheme(
-    // headlineMedium: TextStyle(color: _AppColors.kHeaderText, fontWeight: FontWeight.bold), // fontSize: 28
-    // titleLarge: TextStyle(fontSize: 26, color: _AppColors.kHeaderText, fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(color: _AppColors.kText, fontSize: 18),
-    bodyLarge: TextStyle(color: _AppColors.kText, fontSize: 20),
-
-    labelLarge: TextStyle(color: _AppColors.kText, fontSize: 16),
-    labelMedium: TextStyle(color: _AppColors.kText, fontSize: 14),
-
-    bodyMedium: TextStyle(color: _AppColors.kText, fontSize: 16, height: 1.5),
-    bodySmall: TextStyle(color: _AppColors.kText, fontSize: 14),
+    headlineMedium: TextStyle(color: AppColors.kText, fontWeight: FontWeight.bold, fontSize: 28),
+    headlineSmall: TextStyle(color: AppColors.kText, fontWeight: FontWeight.bold),
+    titleLarge: TextStyle(color: AppColors.kText, fontSize: 18),
+    titleMedium: TextStyle(color: AppColors.kText),
+    bodyLarge: TextStyle(color: AppColors.kText),
+    labelLarge: TextStyle(color: AppColors.kText),
+    labelMedium: TextStyle(color: AppColors.kText),
+    bodyMedium: TextStyle(color: AppColors.kText),
+    bodySmall: TextStyle(color: AppColors.kText),
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      iconColor: MaterialStateProperty.all(AppColors.kIcon),
+    ),
+  ),
+  iconTheme: const IconThemeData(color: AppColors.kIcon),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(10),
     isDense: true,
     isCollapsed: true,
-    labelStyle: const TextStyle(color: _AppColors.kTextDarkGray),
-    hintStyle: const TextStyle(color: _AppColors.kTextDarkGray),
+    labelStyle: const TextStyle(color: AppColors.kTextHint),
+    hintStyle: const TextStyle(color: AppColors.kTextHint),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
     focusedBorder: OutlineInputBorder(
       borderSide: const BorderSide(color: Colors.white),
@@ -76,20 +83,20 @@ final _lightThemeData = ThemeData.light().copyWith(
     style: ElevatedButton.styleFrom(
       elevation: 0,
       minimumSize: const Size(double.infinity, 50),
-      backgroundColor: _AppColors.kPrimary,
+      backgroundColor: AppColors.kPrimary,
       foregroundColor: Colors.white,
-      textStyle: const TextStyle(fontWeight: FontWeight.bold),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       elevation: 0,
       minimumSize: const Size(double.infinity, 50),
-      foregroundColor: _AppColors.kPrimary,
-      textStyle: const TextStyle(fontWeight: FontWeight.bold),
-      side: const BorderSide(color: _AppColors.kPrimary, width: 2),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      foregroundColor: AppColors.kPrimary,
+      textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      side: const BorderSide(color: AppColors.kPrimary, width: 2),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
   ),
   listTileTheme: const ListTileThemeData(

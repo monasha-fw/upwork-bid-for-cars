@@ -7,7 +7,9 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         CustomRoute(page: SplashRoute.page, initial: true, maintainState: false),
-        // CustomRoute(page: ShowRoute.page),
-        // CustomRoute(page: GenreRoute.page),
+        CustomRoute(page: OnboardingRoute.page),
+        CustomRoute(page: LoginRoute.page),
+        CustomRoute(page: RegisterRoute.page),
+        CustomRoute(page: HomeRoute.page),
       ];
 }

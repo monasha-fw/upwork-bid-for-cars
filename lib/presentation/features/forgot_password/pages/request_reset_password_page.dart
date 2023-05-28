@@ -108,6 +108,7 @@ class _RequestResetPasswordPageState extends State<RequestResetPasswordPage> {
                                   label: t.auth.forgotPass.fields.labels.email,
                                   hint: t.auth.forgotPass.fields.hints.email,
                                   keyboardType: TextInputType.emailAddress,
+                                  textCapitalization: TextCapitalization.none,
                                   controller: _emailTec,
                                   focusNode: _emailNode,
                                   onChanged: (v) => cubit.emailChanged(v),

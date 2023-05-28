@@ -60,7 +60,7 @@ Either<ValueFailure<String>, String> validateConfirmPassword(String input, Strin
   }
 }
 
-Either<ValueFailure<String>, String?> validateFirstName(String? input) {
+Either<ValueFailure<String>, String> validateFirstName(String input) {
   if (input.isValidStringField) {
     return Right(input);
   } else {
@@ -68,7 +68,7 @@ Either<ValueFailure<String>, String?> validateFirstName(String? input) {
   }
 }
 
-Either<ValueFailure<String>, String?> validateLastName(String? input) {
+Either<ValueFailure<String>, String> validateLastName(String input) {
   if (input.isValidStringField) {
     return Right(input);
   } else {

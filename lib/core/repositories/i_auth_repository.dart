@@ -1,4 +1,5 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
+import 'package:bid_for_cars/core/dtos/auth/email_register_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
@@ -10,6 +11,11 @@ abstract class IAuthRepository {
   ///
   /// [EmailLoginDto] containing [email] and [password]
   Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto);
+
+  /// Create an account using a email address
+  ///
+  /// [EmailRegisterDto] containing [firstName], [lastName], [email] and [password]
+  Future<Either<Failure, Unit>> registerUserEmail(EmailRegisterDto dto);
 
   /// Request for a password reset using [email]
   ///

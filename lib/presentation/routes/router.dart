@@ -12,7 +12,7 @@ class AppRouter extends $AppRouter {
         CustomRoute(page: RequestResetPasswordRoute.page),
         CustomRoute(page: ResetPasswordRoute.page),
         CustomRoute(page: RegisterRoute.page),
-        CustomRoute(page: EmailConfirmSent.page),
+        CustomRoute(page: RegistrationSuccessRoute.page),
         CustomRoute(page: HomeRoute.page),
       ];
 }

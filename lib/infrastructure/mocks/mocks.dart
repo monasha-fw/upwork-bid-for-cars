@@ -29,6 +29,39 @@ class DioMocks {
       ),
     );
 
+    /// Register
+    /// Success - 204
+    dioAdapter.onPost(
+      EndpointUrls.registerUserEmail,
+      data: {
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "user@mail.com",
+        "password": "Qwe12345"
+      },
+      (server) => server.reply(
+        200,
+        {"access_token": accessToken},
+        delay: const Duration(milliseconds: 300),
+      ),
+    );
+
+    /// Fail - 400
+    dioAdapter.onPost(
+      EndpointUrls.registerUserEmail,
+      data: {
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "someone@mail.com",
+        "password": "Qwe12345"
+      },
+      (server) => server.reply(
+        400,
+        'User account already exists',
+        delay: const Duration(milliseconds: 300),
+      ),
+    );
+
     /// Forgot Password [Request]
     /// Success - 204
     dioAdapter.onPost(

@@ -2,7 +2,7 @@ import 'package:bid_for_cars/core/extensions/dartz.dart';
 import 'package:bid_for_cars/core/usecases/auth/resend_verification_code.dart';
 import 'package:bid_for_cars/core/value_objects/value_objects.dart';
 import 'package:bid_for_cars/presentation/extensions/failure.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 

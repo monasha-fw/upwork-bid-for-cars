@@ -111,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                 label: t.auth.login.fields.labels.email,
                                 hint: t.auth.login.fields.hints.email,
                                 keyboardType: TextInputType.emailAddress,
+                                textCapitalization: TextCapitalization.none,
                                 controller: _emailTec,
                                 focusNode: _emailNode,
                                 onChanged: (v) => cubit.emailChanged(v),

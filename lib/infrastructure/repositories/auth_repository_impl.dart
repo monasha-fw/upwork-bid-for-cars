@@ -1,4 +1,5 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
+import 'package:bid_for_cars/core/dtos/auth/email_register_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
@@ -17,6 +18,11 @@ class AuthRepositoryImpl implements IAuthRepository {
   @override
   Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto) {
     return remoteDataSource.loginUserEmail(dto);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> registerUserEmail(EmailRegisterDto dto) {
+    return remoteDataSource.registerUserEmail(dto);
   }
 
   @override

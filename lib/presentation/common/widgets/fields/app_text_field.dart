@@ -22,6 +22,7 @@ class AppTextField extends StatefulWidget {
     this.keyboardType,
     this.inputFormatters,
     this.disabled = false,
+    this.textCapitalization,
   }) : super(key: key);
 
   final String label;
@@ -40,6 +41,7 @@ class AppTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final bool disabled;
+  final TextCapitalization? textCapitalization;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -74,6 +76,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 ),
               ),
             TextFormField(
+              textCapitalization: widget.textCapitalization ?? TextCapitalization.sentences,
               enabled: !widget.disabled,
 
               /// added bottom padding to avoid the bottom button from hiding the field when keyboard is focused
@@ -86,7 +89,9 @@ class _AppTextFieldState extends State<AppTextField> {
               onChanged: widget.onChanged,
               validator: widget.validator,
               onFieldSubmitted: widget.onSubmitted,
-              keyboardType: widget.keyboardType ?? TextInputType.text,
+              keyboardType: widget.obscureText && obscuring
+                  ? TextInputType.visiblePassword
+                  : widget.keyboardType ?? TextInputType.text,
               inputFormatters: widget.inputFormatters,
               decoration: InputDecoration(
                 labelText: widget.label,

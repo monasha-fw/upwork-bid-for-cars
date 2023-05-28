@@ -37,22 +37,22 @@ class ConfirmPassword extends ValueObject<String> {
   const ConfirmPassword._(this.value);
 }
 
-class FirstName extends ValueObject<String?> {
+class FirstName extends ValueObject<String> {
   @override
-  final Either<ValueFailure<String>, String?> value;
+  final Either<ValueFailure<String>, String> value;
 
-  factory FirstName(String? input) {
+  factory FirstName(String input) {
     return FirstName._(validateFirstName(input));
   }
 
   const FirstName._(this.value);
 }
 
-class LastName extends ValueObject<String?> {
+class LastName extends ValueObject<String> {
   @override
-  final Either<ValueFailure<String>, String?> value;
+  final Either<ValueFailure<String>, String> value;
 
-  factory LastName(String? input) {
+  factory LastName(String input) {
     return LastName._(validateLastName(input));
   }
 

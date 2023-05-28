@@ -1,10 +1,12 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
+import 'package:bid_for_cars/core/dtos/auth/email_register_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/value_objects/value_objects.dart';
 import 'package:bid_for_cars/infrastructure/constants/endpoint_urls.dart';
 import 'package:bid_for_cars/infrastructure/dtos/auth/email_login_model_dto.dart';
+import 'package:bid_for_cars/infrastructure/dtos/auth/email_register_model_dto.dart';
 import 'package:bid_for_cars/infrastructure/dtos/auth/password_reset_model_dto.dart';
 import 'package:bid_for_cars/infrastructure/errors/app_exceptions.dart';
 import 'package:bid_for_cars/infrastructure/models/auth/login_response_model.dart';
@@ -17,6 +19,11 @@ abstract class AuthRemoteDataSource {
   ///
   /// [EmailLoginDto] containing [email] and [password]
   Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto);
+
+  /// Create an account using a email address
+  ///
+  /// [EmailRegisterDto] containing [firstName], [lastName], [email] and [password]
+  Future<Either<Failure, Unit>> registerUserEmail(EmailRegisterDto dto);
 
   /// Request for a password reset using [email]
   ///
@@ -55,6 +62,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final user = loginResponse.toUserModel().toDomain();
 
       return Right(user);
+    } catch (e) {
+      return Left(AppExceptions.exceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> registerUserEmail(EmailRegisterDto dto) async {
+    try {
+      final data = EmailRegisterModelDto.fromDomain(dto).toJson();
+      const url = EndpointUrls.registerUserEmail;
+
+      await client.post(url, data: data);
+
+      return const Right(unit);
     } catch (e) {
       return Left(AppExceptions.exceptionToFailure(e));
     }

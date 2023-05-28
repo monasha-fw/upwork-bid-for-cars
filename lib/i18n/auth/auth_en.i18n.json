@@ -98,7 +98,7 @@
       "part3": " and ",
       "part4": "Privacy Policy"
     },
-    "alreadyHas": "Already have an account?",
+    "alreadyHas": "Already have an account? ",
     "login": "Login",
     "actions": {
       "register": "Register"
@@ -108,25 +108,29 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "email": "Email address",
-        "password": "Password"
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
       },
       "placeholders": {
         "firstName": "Name",
         "lastName": "Surname",
         "email": "Email address",
-        "password": "Password"
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
       },
       "hints": {
         "firstName": "ex: John",
         "lastName": "ex: Doe",
         "email": "ex: someone@email.co",
-        "password": "ex: Pass1234"
+        "password": "ex: Pass1234",
+        "confirmPassword": "ex: Pass1234"
       },
       "errors": {
         "firstName": "Invalid first name",
         "lastName": "Invalid last name",
         "email": "Invalid email address",
-        "password": "Invalid password"
+        "password": "Invalid password",
+        "confirmPassword": "Invalid confirm password"
       }
     }
   },

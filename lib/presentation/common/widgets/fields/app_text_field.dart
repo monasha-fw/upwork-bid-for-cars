@@ -1,3 +1,4 @@
+import 'package:bid_for_cars/presentation/extensions/context.dart';
 import 'package:bid_for_cars/presentation/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,7 +79,7 @@ class _AppTextFieldState extends State<AppTextField> {
               /// added bottom padding to avoid the bottom button from hiding the field when keyboard is focused
               scrollPadding: const EdgeInsets.only(bottom: 100),
 
-              style: Theme.of(context).textTheme.titleMedium,
+              style: context.theme.textTheme.titleMedium,
               obscureText: obscuring,
               controller: widget.controller,
               focusNode: widget.focusNode,
@@ -88,24 +89,12 @@ class _AppTextFieldState extends State<AppTextField> {
               keyboardType: widget.keyboardType ?? TextInputType.text,
               inputFormatters: widget.inputFormatters,
               decoration: InputDecoration(
-                // floatingLabelStyle: const TextStyle(
-                //   color: AppColors.kHeaderTextL,
-                //   fontSize: 24,
-                //   fontWeight: FontWeight.bold,
-                // ),
                 labelText: widget.label,
-                // labelStyle: Theme.of(context).inputDecorationTheme.labelStyle?.copyWith(
-                //       height: 3,
-                //       fontSize: widget.controller == null || widget.controller!.text.isEmpty ? 18 : 30,
-                //     ),
                 hintText: widget.hint,
-                hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
-                // contentPadding: const EdgeInsets.only(bottom: 8),
-                // constraints: const BoxConstraints(maxHeight: 36),
                 errorMaxLines: 3,
                 alignLabelWithHint: true,
                 prefixText: widget.prefixText,
-                prefixStyle: Theme.of(context).textTheme.titleMedium,
+                prefixStyle: context.theme.textTheme.titleMedium,
                 prefixIcon: widget.prefixIcon,
                 suffixIconConstraints: const BoxConstraints(minWidth: 20),
                 suffixIcon: widget.obscureText
@@ -113,11 +102,14 @@ class _AppTextFieldState extends State<AppTextField> {
                         onTap: () => setState(() => obscuring = !obscuring),
                         child: Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: Icon(obscuring ? Icons.visibility : Icons.visibility_off),
+                          child: Icon(
+                            obscuring ? Icons.visibility : Icons.visibility_off,
+                            color: AppColors.kFieldIcon,
+                          ),
                         ),
                       )
                     : widget.suffixIcon,
-              ),
+              ).applyDefaults(context.theme.inputDecorationTheme),
             ),
           ],
         ),

@@ -24,7 +24,7 @@ abstract class AppColors {
   static const kOnTertiary = Color.fromRGBO(97, 167, 212, 1); // #61A7D4
 
   static const kError = Color.fromRGBO(244, 124, 124, 1);
-  static const kInfo = Color.fromRGBO(56, 193, 225, 1.0);
+  static const kInfo = Color.fromRGBO(56, 193, 225, 1);
   static const kSuccess = Color.fromRGBO(86, 198, 170, 1);
   static const kDisabled = Colors.grey;
 
@@ -34,7 +34,7 @@ abstract class AppColors {
 
   /* border colors */
   static const kBorder = Color.fromRGBO(196, 205, 213, 1); // #C4CDD5
-  static const kBorderFocused = Color.fromRGBO(190, 199, 208, 1.0); // #C4CDD5
+  static const kBorderFocused = Color.fromRGBO(190, 199, 208, 1); // #C4CDD5
 
   /* Text colors */
   static const kText = Color.fromRGBO(29, 28, 28, 1); // #1D1C1C
@@ -47,4 +47,5 @@ abstract class AppColors {
 /* Icon colors */
   static const kIcon = Color.fromRGBO(80, 84, 93, 1); // #50545D
   static const kIconPrimary = Color.fromRGBO(97, 167, 212, 1); // #61A7D4
+  static const kFieldIcon = Color.fromRGBO(196, 205, 213, 1); // #C4CDD5
 }

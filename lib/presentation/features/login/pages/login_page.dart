@@ -8,6 +8,8 @@ import 'package:bid_for_cars/presentation/common/widgets/sizes/index.dart';
 import 'package:bid_for_cars/presentation/common/widgets/snackbars/snackbar.dart';
 import 'package:bid_for_cars/presentation/extensions/context.dart';
 import 'package:bid_for_cars/presentation/features/login/bloc/login_cubit.dart';
+import 'package:bid_for_cars/presentation/features/login/widgets/forgot_pass_link.dart';
+import 'package:bid_for_cars/presentation/features/login/widgets/get_started_link.dart';
 import 'package:bid_for_cars/presentation/routes/router.gr.dart';
 import 'package:bid_for_cars/presentation/theme/theme.dart';
 import 'package:bid_for_cars/presentation/utils/utils.dart';
@@ -104,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 1.4,
                                 ),
                               ),
-                              const HSB(20),
+                              const HSB(40),
                               AppTextField(
                                 label: t.auth.login.fields.labels.email,
                                 hint: t.auth.login.fields.hints.email,
@@ -128,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 onSubmitted: (_) => _passwordNode.requestFocus(),
                               ),
-                              const HSB(20),
+                              const HSB(30),
                               AppTextField(
                                 label: t.auth.login.fields.labels.password,
                                 hint: t.auth.login.fields.hints.password,
@@ -150,13 +152,18 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 onSubmitted: (_) => _submit(context),
                               ),
-                              const HSB(10),
+                              const HSB(30),
+                              const ForgotPassLink(),
+                              const HSB(30),
                               AppElevatedButton(
                                 label: t.auth.login.actions.login,
                                 disabled: !cubit.state.isValid,
                                 loading: cubit.state.processing,
                                 onPressed: () => _submit(context),
                               ),
+                              const HSB(30),
+                              const GetStartedLink(),
+                              const HSB(30),
                             ],
                           ),
                         ),

@@ -3,7 +3,7 @@
     "title": "Log in to Company Name",
     "subtitle": "Enter your details below",
     "forgotPass": "Forgot password?",
-    "noAccount": "Don’t have an account?",
+    "noAccount": "Don’t have an account? ",
     "getStarted": "Get started",
     "actions": {
       "login": "Login"

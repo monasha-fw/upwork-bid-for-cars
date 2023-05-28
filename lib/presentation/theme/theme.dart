@@ -74,8 +74,24 @@ final _lightThemeData = ThemeData.light().copyWith(
       borderSide: const BorderSide(color: AppColors.kBorder),
       borderRadius: BorderRadius.circular(10),
     ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.kBorder),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.kDisabled),
+      borderRadius: BorderRadius.circular(10),
+    ),
     focusedBorder: OutlineInputBorder(
       borderSide: const BorderSide(color: AppColors.kBorderFocused),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.kError),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.kError),
       borderRadius: BorderRadius.circular(10),
     ),
   ),

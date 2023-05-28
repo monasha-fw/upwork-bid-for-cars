@@ -1,6 +1,7 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
+import 'package:bid_for_cars/core/value_objects/value_objects.dart';
 import 'package:bid_for_cars/infrastructure/constants/endpoint_urls.dart';
 import 'package:bid_for_cars/infrastructure/dtos/auth/email_login_model_dto.dart';
 import 'package:bid_for_cars/infrastructure/errors/app_exceptions.dart';
@@ -14,6 +15,11 @@ abstract class AuthRemoteDataSource {
   ///
   /// [EmailLoginDto] containing [email] and [password]
   Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto);
+
+  /// Request for a password reset using [email]
+  ///
+  /// [email] related to the account
+  Future<Either<Failure, Unit>> forgottenPasswordReset(EmailAddress email);
 }
 
 @Singleton(as: AuthRemoteDataSource)
@@ -37,6 +43,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final user = loginResponse.toUserModel().toDomain();
 
       return Right(user);
+    } catch (e) {
+      return Left(AppExceptions.exceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> forgottenPasswordReset(EmailAddress email) async {
+    try {
+      const url = EndpointUrls.forgottenPasswordResetRequest;
+
+      await client.post(url, data: {"email": email.getOrCrash()});
+
+      return const Right(unit);
     } catch (e) {
       return Left(AppExceptions.exceptionToFailure(e));
     }

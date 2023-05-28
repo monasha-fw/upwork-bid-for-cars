@@ -1,4 +1,7 @@
 {
+  "common": {
+    "returnToLogin": "Return to Login"
+  },
   "login": {
     "title": "Log in to Company Name",
     "subtitle": "Enter your details below",
@@ -30,7 +33,6 @@
   "forgotPass": {
     "title": "Forgot your password?",
     "subtitle": "Please enter the email address associated with your account, and we'll email you a link to reset your password.",
-    "returnToLogin": "Return to Login",
     "actions": {
       "resetPass": "Reset Password"
     },
@@ -47,6 +49,9 @@
       "errors": {
         "email": "Invalid email address"
       }
+    },
+    "responses": {
+      "submitSuccess": "Please find your password reset link with the email address you provided."
     }
   },
   "passRequested": {
@@ -54,7 +59,6 @@
     "subtitle": "We've sent a 6-digit confirmation email to your email. Please enter the code in below box to verify your email.",
     "noCode": "Don’t have a code?",
     "resendCode": "Resend code",
-    "returnToLogin": "Return to Login",
     "actions": {
       "resetPass": "Update Password"
     },
@@ -124,7 +128,6 @@
   },
   "emailVerifySent": {
     "title": "Please check your email!",
-    "subtitle": "Lorem ipsum dolor sit amet consectetur. Erat pellentesque tortor semper ut nunc lectus non vitae nunc.",
-    "returnToLogin": "Return to Login"
+    "subtitle": "Lorem ipsum dolor sit amet consectetur. Erat pellentesque tortor semper ut nunc lectus non vitae nunc."
   }
 }

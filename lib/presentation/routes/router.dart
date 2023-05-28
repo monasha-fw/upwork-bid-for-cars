@@ -9,7 +9,10 @@ class AppRouter extends $AppRouter {
         CustomRoute(page: SplashRoute.page, initial: true, maintainState: false),
         CustomRoute(page: OnboardingRoute.page),
         CustomRoute(page: LoginRoute.page),
+        CustomRoute(page: ForgotPasswordRoute.page),
+        CustomRoute(page: ResetPasswordRoute.page),
         CustomRoute(page: RegisterRoute.page),
+        CustomRoute(page: EmailConfirmSent.page),
         CustomRoute(page: HomeRoute.page),
       ];
 }

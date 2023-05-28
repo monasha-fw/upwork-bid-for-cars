@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bid_for_cars/i18n/translations.g.dart';
-import 'package:bid_for_cars/presentation/common/routes/router.gr.dart';
-import 'package:bid_for_cars/presentation/common/theme/theme.dart';
 import 'package:bid_for_cars/presentation/common/widgets/images/app_image.dart';
 import 'package:bid_for_cars/presentation/common/widgets/sizes/index.dart';
 import 'package:bid_for_cars/presentation/constants/assets/images.dart';
 import 'package:bid_for_cars/presentation/extensions/context.dart';
+import 'package:bid_for_cars/presentation/routes/router.gr.dart';
+import 'package:bid_for_cars/presentation/theme/theme.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -25,20 +25,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final children = [
     OnboardingData(
       id: 1,
-      title: t.ui.onboarding.page1.title,
-      description: t.ui.onboarding.page1.desc,
+      title: t.onboarding.page1.title,
+      description: t.onboarding.page1.desc,
       illustration: AssetSvg.illOnboarding1,
     ),
     OnboardingData(
       id: 2,
-      title: t.ui.onboarding.page2.title,
-      description: t.ui.onboarding.page2.desc,
+      title: t.onboarding.page2.title,
+      description: t.onboarding.page2.desc,
       illustration: AssetSvg.illOnboarding2,
     ),
     OnboardingData(
       id: 3,
-      title: t.ui.onboarding.page3.title,
-      description: t.ui.onboarding.page3.desc,
+      title: t.onboarding.page3.title,
+      description: t.onboarding.page3.desc,
       illustration: AssetSvg.illOnboarding3,
     ),
   ];
@@ -57,7 +57,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     final isLast = _currentPage == children.length;
     return ElevatedButton(
       onPressed: isLast ? _toLogin : _nextPage,
-      child: Text(isLast ? t.ui.onboarding.actions.startNow : t.ui.onboarding.actions.next),
+      child: Text(isLast ? t.onboarding.actions.startNow : t.onboarding.actions.next),
     );
   }
 
@@ -122,9 +122,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   foregroundColor: context.theme.colorScheme.onPrimaryContainer,
                                   textStyle: const TextStyle(fontSize: 18),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50)),
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
                                 ),
-                                child: Text(t.ui.onboarding.actions.skip),
+                                child: Text(t.onboarding.actions.skip),
                               ),
                             ),
                           ],

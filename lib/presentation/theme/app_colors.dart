@@ -32,6 +32,10 @@ abstract class AppColors {
   static const kBg = Color.fromRGBO(249, 250, 251, 1); // #F9FAFB
   static const kBgInactive = Color.fromRGBO(196, 205, 213, 1); // #C4CDD5
 
+  /* border colors */
+  static const kBorder = Color.fromRGBO(196, 205, 213, 1); // #C4CDD5
+  static const kBorderFocused = Color.fromRGBO(190, 199, 208, 1.0); // #C4CDD5
+
   /* Text colors */
   static const kText = Color.fromRGBO(29, 28, 28, 1); // #1D1C1C
   static const kTextPrimary = Color.fromRGBO(18, 123, 191, 1); // #127BBF

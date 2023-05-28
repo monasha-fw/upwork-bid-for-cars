@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bid_for_cars/presentation/common/routes/router.gr.dart';
 import 'package:bid_for_cars/presentation/extensions/context.dart';
+import 'package:bid_for_cars/presentation/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()

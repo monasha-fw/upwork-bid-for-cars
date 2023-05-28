@@ -1,0 +1,130 @@
+{
+  "login": {
+    "title": "Log in to Company Name",
+    "subtitle": "Enter your details below",
+    "forgotPass": "Forgot password?",
+    "noAccount": "Don’t have an account?",
+    "getStarted": "Get started",
+    "actions": {
+      "login": "Login"
+    },
+    "fields": {
+      "labels": {
+        "email": "Email address",
+        "password": "Password"
+      },
+      "placeholders": {
+        "email": "Email address",
+        "password": "Password"
+      },
+      "hints": {
+        "email": "ex: someone@email.co",
+        "password": "ex: Pass1234"
+      },
+      "errors": {
+        "email": "Invalid email address",
+        "password": "Invalid password"
+      }
+    }
+  },
+  "forgotPass": {
+    "title": "Forgot your password?",
+    "subtitle": "Please enter the email address associated with your account, and we'll email you a link to reset your password.",
+    "returnToLogin": "Return to Login",
+    "actions": {
+      "resetPass": "Reset Password"
+    },
+    "fields": {
+      "labels": {
+        "email": "Email address"
+      },
+      "placeholders": {
+        "email": "Email address"
+      },
+      "hints": {
+        "email": "ex: someone@email.co"
+      },
+      "errors": {
+        "email": "Invalid email address"
+      }
+    }
+  },
+  "passRequested": {
+    "title": "Request sent successfully!",
+    "subtitle": "We've sent a 6-digit confirmation email to your email. Please enter the code in below box to verify your email.",
+    "noCode": "Don’t have a code?",
+    "resendCode": "Resend code",
+    "returnToLogin": "Return to Login",
+    "actions": {
+      "resetPass": "Update Password"
+    },
+    "fields": {
+      "labels": {
+        "email": "Email address",
+        "password": "Password",
+        "confirmPassword": "Confirm New Password"
+      },
+      "placeholders": {
+        "email": "Email address",
+        "password": "Password",
+        "confirmPassword": "Confirm New Password"
+      },
+      "hints": {
+        "email": "ex: someone@email.co",
+        "password": "ex: Pass1234",
+        "confirmPassword": "ex: Pass1234"
+      },
+      "errors": {
+        "email": "Invalid email address",
+        "password": "Invalid password",
+        "confirmPassword": "Invalid confirm password"
+      }
+    }
+  },
+  "register": {
+    "title": "Register in to Carsxchange",
+    "subtitle": "Enter your details below",
+    "agreement": {
+      "part1": "I agree with Stealthwriter ",
+      "part2": "Terms of Service",
+      "part3": " and ",
+      "part4": "Privacy Policy"
+    },
+    "alreadyHas": "Already have an account?",
+    "login": "Login",
+    "actions": {
+      "register": "Register"
+    },
+    "fields": {
+      "labels": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email address",
+        "password": "Password"
+      },
+      "placeholders": {
+        "firstName": "Name",
+        "lastName": "Surname",
+        "email": "Email address",
+        "password": "Password"
+      },
+      "hints": {
+        "firstName": "ex: John",
+        "lastName": "ex: Doe",
+        "email": "ex: someone@email.co",
+        "password": "ex: Pass1234"
+      },
+      "errors": {
+        "firstName": "Invalid first name",
+        "lastName": "Invalid last name",
+        "email": "Invalid email address",
+        "password": "Invalid password"
+      }
+    }
+  },
+  "emailVerifySent": {
+    "title": "Please check your email!",
+    "subtitle": "Lorem ipsum dolor sit amet consectetur. Erat pellentesque tortor semper ut nunc lectus non vitae nunc.",
+    "returnToLogin": "Return to Login"
+  }
+}

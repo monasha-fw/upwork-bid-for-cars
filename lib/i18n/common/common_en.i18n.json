@@ -1,5 +1,8 @@
 {
+  "and": "and",
   "errors": {
-    "somethingWentWrong": "Something Went Wrong!"
+    "somethingWentWrong": "Something Went Wrong!",
+    "noAuthCache": "No previous logged in sessions found.",
+    "unauthorized": "Unauthorized."
   }
 }

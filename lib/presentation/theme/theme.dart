@@ -68,15 +68,15 @@ final _lightThemeData = ThemeData.light().copyWith(
   ),
   iconTheme: const IconThemeData(color: AppColors.kIcon),
   inputDecorationTheme: InputDecorationTheme(
-    contentPadding: const EdgeInsets.all(10),
-    isDense: true,
-    isCollapsed: true,
     labelStyle: const TextStyle(color: AppColors.kTextHint),
     hintStyle: const TextStyle(color: AppColors.kTextHint),
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+    border: OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.kBorder),
+      borderRadius: BorderRadius.circular(10),
+    ),
     focusedBorder: OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.white),
-      borderRadius: BorderRadius.circular(30),
+      borderSide: const BorderSide(color: AppColors.kBorderFocused),
+      borderRadius: BorderRadius.circular(10),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -84,8 +84,11 @@ final _lightThemeData = ThemeData.light().copyWith(
       elevation: 0,
       minimumSize: const Size(double.infinity, 50),
       backgroundColor: AppColors.kPrimary,
-      foregroundColor: Colors.white,
-      textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      textStyle: const TextStyle(
+        color: AppColors.kOnPrimary,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
   ),

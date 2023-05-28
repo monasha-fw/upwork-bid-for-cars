@@ -1,9 +1,11 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
+import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/value_objects/value_objects.dart';
 import 'package:bid_for_cars/infrastructure/constants/endpoint_urls.dart';
 import 'package:bid_for_cars/infrastructure/dtos/auth/email_login_model_dto.dart';
+import 'package:bid_for_cars/infrastructure/dtos/auth/password_reset_model_dto.dart';
 import 'package:bid_for_cars/infrastructure/errors/app_exceptions.dart';
 import 'package:bid_for_cars/infrastructure/models/auth/login_response_model.dart';
 import 'package:bid_for_cars/infrastructure/network/http_client.dart';
@@ -19,7 +21,17 @@ abstract class AuthRemoteDataSource {
   /// Request for a password reset using [email]
   ///
   /// [email] related to the account
-  Future<Either<Failure, Unit>> forgottenPasswordReset(EmailAddress email);
+  Future<Either<Failure, Unit>> requestPasswordReset(EmailAddress email);
+
+  /// Change forgotten password
+  ///
+  /// [email], [password] and the [verificationCode]
+  Future<Either<Failure, Unit>> resetPassword(PasswordResetDto dto);
+
+  /// Re-Sends the [verificationToken]
+  ///
+  /// [email] related to the account
+  Future<Either<Failure, Unit>> resendVerificationCode(EmailAddress email);
 }
 
 @Singleton(as: AuthRemoteDataSource)
@@ -49,9 +61,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, Unit>> forgottenPasswordReset(EmailAddress email) async {
+  Future<Either<Failure, Unit>> requestPasswordReset(EmailAddress email) async {
     try {
       const url = EndpointUrls.forgottenPasswordResetRequest;
+
+      await client.post(url, data: {"email": email.getOrCrash()});
+
+      return const Right(unit);
+    } catch (e) {
+      return Left(AppExceptions.exceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resetPassword(PasswordResetDto dto) async {
+    try {
+      final data = PasswordResetModelDto.fromDomain(dto).toJson();
+      const url = EndpointUrls.resetPassword;
+
+      await client.post(url, data: data);
+
+      return const Right(unit);
+    } catch (e) {
+      return Left(AppExceptions.exceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resendVerificationCode(EmailAddress email) async {
+    try {
+      const url = EndpointUrls.resendVerificationCode;
 
       await client.post(url, data: {"email": email.getOrCrash()});
 

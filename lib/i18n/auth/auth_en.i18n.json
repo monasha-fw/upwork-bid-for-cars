@@ -54,13 +54,13 @@
       "submitSuccess": "Please find your password reset link with the email address you provided."
     }
   },
-  "passRequested": {
+  "resetPassword": {
     "title": "Request sent successfully!",
     "subtitle": "We've sent a 6-digit confirmation email to your email. Please enter the code in below box to verify your email.",
-    "noCode": "Don’t have a code?",
+    "noCode": "Don’t have a code? ",
     "resendCode": "Resend code",
     "actions": {
-      "resetPass": "Update Password"
+      "updatePass": "Update Password"
     },
     "fields": {
       "labels": {
@@ -81,8 +81,12 @@
       "errors": {
         "email": "Invalid email address",
         "password": "Invalid password",
-        "confirmPassword": "Invalid confirm password"
+        "confirmPassword": "Invalid confirm password",
+        "code": "Invalid verification code"
       }
+    },
+    "responses": {
+      "submitSuccess": "You password is successfully changed. Please login."
     }
   },
   "register": {

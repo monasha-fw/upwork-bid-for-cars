@@ -28,5 +28,47 @@ class DioMocks {
         delay: const Duration(milliseconds: 300),
       ),
     );
+
+    /// Forgot Password [Request]
+    /// Success - 204
+    dioAdapter.onPost(
+      EndpointUrls.forgottenPasswordResetRequest,
+      data: {"email": "user@mail.com"},
+      (server) => server.reply(204, "", delay: const Duration(milliseconds: 300)),
+    );
+
+    /// Failure - 400
+    dioAdapter.onPost(
+      EndpointUrls.forgottenPasswordResetRequest,
+      data: {"email": "someone@mail.com"},
+      (server) => server.reply(400, "Invalid email", delay: const Duration(milliseconds: 300)),
+    );
+
+    /// Forgot Password [Reset]
+    /// Success - 204
+    dioAdapter.onPost(
+      EndpointUrls.resetPassword,
+      data: {"email": "user@mail.com", "code": "123456", "password": "Qwe12345"},
+      (server) => server.reply(204, "", delay: const Duration(milliseconds: 300)),
+    );
+
+    /// Failure - 400
+    dioAdapter.onPost(
+      EndpointUrls.resetPassword,
+      data: {"email": "user@mail.com", "code": "654321", "password": "Qwe12345"},
+      (server) => server.reply(
+        400,
+        "Invalid verification code",
+        delay: const Duration(milliseconds: 300),
+      ),
+    );
+
+    /// Re-send verification code
+    /// Success - 204
+    dioAdapter.onPost(
+      EndpointUrls.resendVerificationCode,
+      data: {"email": "user@mail.com"},
+      (server) => server.reply(204, "", delay: const Duration(milliseconds: 300)),
+    );
   }
 }

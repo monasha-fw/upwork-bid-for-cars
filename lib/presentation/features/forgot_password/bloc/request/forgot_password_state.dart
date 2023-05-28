@@ -8,7 +8,7 @@ class ForgotPasswordState with _$ForgotPasswordState {
     required bool isValid,
     required bool showErrors,
     required Option<Either<String, Unit>> result,
-  }) = _LoginState;
+  }) = _ForgotPasswordState;
 
   factory ForgotPasswordState.initial() => ForgotPasswordState(
         email: EmailAddress(''),

@@ -23,7 +23,7 @@ class ForgotPassLink extends StatelessWidget {
                 style: context.theme.textTheme.bodyMedium
                     ?.copyWith(decoration: TextDecoration.underline),
                 recognizer: TapGestureRecognizer()
-                  ..onTap = () => context.router.push(const ForgotPasswordRoute()),
+                  ..onTap = () => context.router.push(const RequestResetPasswordRoute()),
               ),
             ],
           ),

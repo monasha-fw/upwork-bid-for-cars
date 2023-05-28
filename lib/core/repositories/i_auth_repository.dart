@@ -1,4 +1,5 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
+import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/value_objects/common.dart';
@@ -13,5 +14,15 @@ abstract class IAuthRepository {
   /// Request for a password reset using [email]
   ///
   /// [email] related to the account
-  Future<Either<Failure, Unit>> forgottenPasswordReset(EmailAddress email);
+  Future<Either<Failure, Unit>> requestPasswordReset(EmailAddress email);
+
+  /// Change forgotten password
+  ///
+  /// [email], [password] and the [verificationCode]
+  Future<Either<Failure, Unit>> resetPassword(PasswordResetDto dto);
+
+  /// Re-Sends the [verificationToken]
+  ///
+  /// [email] related to the account
+  Future<Either<Failure, Unit>> resendVerificationCode(EmailAddress email);
 }

@@ -51,6 +51,7 @@ dependencies:
 
   # ui plugins
   dots_indicator: ^3.0.0
+  pin_code_fields: ^7.4.0
 
 dev_dependencies:
   flutter_test:

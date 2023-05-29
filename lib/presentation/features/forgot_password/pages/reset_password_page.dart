@@ -134,6 +134,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 const HSB(10),
                                 Text(
                                   t.auth.resetPassword.subtitle,
+                                  textAlign: TextAlign.center,
                                   style: context.theme.textTheme.titleLarge?.copyWith(
                                     color: AppColors.kTextSub,
                                     fontWeight: FontWeight.w400,

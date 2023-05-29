@@ -1,0 +1,1 @@
+enum CarStatusEnum { live, expired }

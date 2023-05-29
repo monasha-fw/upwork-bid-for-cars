@@ -1,0 +1,22 @@
+{
+  "navBar": {
+    "bids": "Bids",
+    "cars": "Cars",
+    "account": "Account"
+  },
+  "carCard": {
+    "highestBid": "Highest Bid",
+    "expiresInDays": {
+      "one": "In $n day",
+      "other": "In $n days"
+    },
+    "status": {
+      "live": "Live",
+      "expired": "Expired"
+    },
+    "actions": {
+      "addBid": "Add Bid",
+      "addOffer": "Add Offer"
+    }
+  }
+}

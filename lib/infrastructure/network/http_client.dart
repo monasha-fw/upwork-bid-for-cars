@@ -37,7 +37,7 @@ class AppHttpClient implements IHttpClient {
 
       /// TODO - Mocks only for testing without a server
       ..httpClientAdapter = dioAdapter;
-    DioMocks.init(dioAdapter);
+    DioMocks().init(dioAdapter);
 
     /// refresh token interceptor
     dio.interceptors.add(

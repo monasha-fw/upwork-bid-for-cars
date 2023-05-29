@@ -7,4 +7,7 @@ abstract class EndpointUrls {
   static const String forgottenPasswordResetRequest = "/api/auth/forgotPassword";
   static const String resetPassword = "/api/auth/resetPassword";
   static const String resendVerificationCode = "/api/auth/resendVerificationCode";
+
+  /// Cars
+  static const String getCars = "/api/cars";
 }

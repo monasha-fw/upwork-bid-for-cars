@@ -47,6 +47,7 @@ dependencies:
   # utils
   flutter_svg: ^2.0.5
   internet_connection_checker: ^1.0.0+1
+  intl: ^0.18.0
   validators: ^3.0.0
 
   # ui plugins
@@ -77,6 +78,8 @@ flutter:
 
   assets:
     - assets/svgs/illustrations/
+    - assets/svgs/icons/home/navi_bar/
+    - assets/svgs/icons/home/car_card/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

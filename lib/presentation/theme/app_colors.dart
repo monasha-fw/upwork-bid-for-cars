@@ -48,4 +48,7 @@ abstract class AppColors {
   static const kIcon = Color.fromRGBO(80, 84, 93, 1); // #50545D
   static const kIconPrimary = Color.fromRGBO(97, 167, 212, 1); // #61A7D4
   static const kFieldIcon = Color.fromRGBO(196, 205, 213, 1); // #C4CDD5
+
+/* Shadow */
+  static const kShadow = Color.fromRGBO(33, 43, 54, 0.1);
 }

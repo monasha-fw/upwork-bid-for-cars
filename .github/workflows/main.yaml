@@ -24,12 +24,15 @@ jobs:
           channel: 'stable' # or: 'beta', 'dev' or 'master'
       - run: flutter --version
       - run: flutter pub get
+      - run: flutter packages pub run build_runner clean
+      - run: flutter packages pub run build_runner build -d
+      - run: flutter pub run slang
 #      - run: flutter test
       - run: flutter build apk
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/*"
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/ios/iphoneos/app.ipa"
           tag: v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
 

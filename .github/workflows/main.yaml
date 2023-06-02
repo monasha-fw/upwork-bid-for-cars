@@ -3,7 +3,7 @@ on:
     branches:
       - main
 
-  push_request:
+  push:
     branches:
       - main
       - staging

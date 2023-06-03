@@ -19,14 +19,15 @@ jobs:
           java-version: '17'
           cache: 'gradle'
       - uses: actions/checkout@v3
-      # ANDROID KEY
+
+      # ANDROID KEYSTORE Read
       - name: Download Android keystore
         id: android_keystore
         uses: timheuer/base64-to-file@v1.2.3
         with:
-        fileName: upload-keystore.jks
-        encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-
+          fileName: upload-keystore.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      # ANDROID KEYSTORE Create
       - name: Create key.properties
         run: |
           echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties

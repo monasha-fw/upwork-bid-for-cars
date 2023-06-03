@@ -28,7 +28,6 @@ jobs:
       - run: flutter packages pub run build_runner build -d
       - run: flutter pub run slang
       #      - run: flutter test
-      - run: flutter build apk
 
       # Get version from pubspec.yaml
       - name: Get version
@@ -39,6 +38,8 @@ jobs:
 
       - name: Print version
         run: echo ${{ steps.yq.outputs.result }}
+
+      - run: flutter build apk
 
       - name: Push to Releases
         uses: ncipollo/release-action@v1

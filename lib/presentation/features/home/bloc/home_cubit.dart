@@ -35,7 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, List<CarThumbnail>> errOrResult = result.fold(
-      (Failure l) => Left(l.getMessage()),
+      (Failure l) => Left(l.getMessage),
       (r) {
         final live = r.where((c) => c.status == CarStatusEnum.live).toList()
           ..sort((a, b) => (a.expiresIn).compareTo(b.expiresIn));
@@ -56,7 +56,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, List<CarThumbnail>> errOrResult = result.fold(
-      (Failure l) => Left(l.getMessage()),
+      (Failure l) => Left(l.getMessage),
       (r) => Right(r..sort((a, b) => (a.expiresIn).compareTo(b.expiresIn))),
     );
 
@@ -71,7 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, List<CarThumbnail>> errOrResult = result.fold(
-      (Failure l) => Left(l.getMessage()),
+      (Failure l) => Left(l.getMessage),
       (r) => Right(r..sort((a, b) => (b.expiresIn).compareTo(a.expiresIn))),
     );
 

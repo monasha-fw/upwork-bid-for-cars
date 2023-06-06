@@ -14,7 +14,7 @@ import 'package:bid_for_cars/infrastructure/network/http_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class AuthRemoteDataSource {
+abstract class AuthRemoteDatasource {
   /// Login using email address
   ///
   /// [EmailLoginDto] containing [email] and [password]
@@ -41,11 +41,11 @@ abstract class AuthRemoteDataSource {
   Future<Either<Failure, Unit>> resendVerificationCode(EmailAddress email);
 }
 
-@Singleton(as: AuthRemoteDataSource)
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+@Singleton(as: AuthRemoteDatasource)
+class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   final AppHttpClient client;
 
-  AuthRemoteDataSourceImpl(this.client);
+  AuthRemoteDatasourceImpl(this.client);
 
   @override
   Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto) async {

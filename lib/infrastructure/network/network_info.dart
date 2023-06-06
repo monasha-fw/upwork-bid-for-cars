@@ -7,7 +7,7 @@ import 'i_network_info.dart';
 class NetworkInfoImpl implements INetworkInfo {
   final InternetConnectionChecker connection;
 
-  NetworkInfoImpl(this.connection);
+  const NetworkInfoImpl(this.connection);
 
   @override
   Future<bool> get isConnected => connection.hasConnection;

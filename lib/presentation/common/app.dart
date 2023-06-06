@@ -14,7 +14,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AuthCubit>(),
+      create: (context) => getIt<AuthCubit>()..checkAuth(),
 
       /// Translations wrapper
       child: TranslationProvider(

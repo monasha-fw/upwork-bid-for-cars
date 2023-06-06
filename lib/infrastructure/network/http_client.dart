@@ -9,10 +9,6 @@ import 'package:injectable/injectable.dart';
 import 'i_http_client.dart';
 import 'i_network_info.dart';
 
-const String _baseUrl = EndpointUrls.baseUrl;
-const _defaultConnectTimeout = Duration.millisecondsPerMinute;
-const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
-
 /// will bypass accessToken check on these urls
 const noneAuthedRoute = [
   EndpointUrls.loginUserEmail,
@@ -30,24 +26,21 @@ class AppHttpClient implements IHttpClient {
     this.dioAdapter,
   ) {
     dio
-      ..options.baseUrl = _baseUrl
-      ..options.connectTimeout = _defaultConnectTimeout
-      ..options.receiveTimeout = _defaultReceiveTimeout
       ..httpClientAdapter
 
       /// TODO - Mocks only for testing without a server
       ..httpClientAdapter = dioAdapter;
     DioMocks().init(dioAdapter);
 
-    /// refresh token interceptor
-    dio.interceptors.add(
-      QueuedInterceptorsWrapper(
-        onRequest: (options, handler) async {
-          /// check if the token is appended from the datasource function
-          return handler.next(options);
-        },
-      ),
-    );
+    /// TODO refresh token interceptor
+    // dio.interceptors.add(
+    //   QueuedInterceptorsWrapper(
+    //     onRequest: (options, handler) async {
+    //       /// check if the token is appended from the datasource function
+    //       return handler.next(options);
+    //     },
+    //   ),
+    // );
   }
 
   @override

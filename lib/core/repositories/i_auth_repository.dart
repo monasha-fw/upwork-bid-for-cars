@@ -31,4 +31,8 @@ abstract class IAuthRepository {
   ///
   /// [email] related to the account
   Future<Either<Failure, Unit>> resendVerificationCode(EmailAddress email);
+
+  /// Check for cached authentications
+  ///
+  Future<Either<Failure, User>> getCachedAuth();
 }

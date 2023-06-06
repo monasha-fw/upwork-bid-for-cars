@@ -47,6 +47,7 @@ app.*.map.json
 *.config.dart
 *.gr.dart
 *.g.dart
+*.mocks.dart
 
 delete_this*
 .idea/workspace.xml

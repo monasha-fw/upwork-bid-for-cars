@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
 
-@Injectable(env: [Environment.dev, Environment.test])
+@injectable
 class AuthCubit extends Cubit<AuthState> {
   final CheckAuth _checkAuth;
 

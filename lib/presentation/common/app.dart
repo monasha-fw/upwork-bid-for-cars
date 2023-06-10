@@ -28,7 +28,6 @@ class App extends StatelessWidget {
             darkTheme: AppTheme.dark,
             routerConfig: getIt<AppRouter>().config(),
             locale: TranslationProvider.of(context).flutterLocale,
-            // use provider
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
           );

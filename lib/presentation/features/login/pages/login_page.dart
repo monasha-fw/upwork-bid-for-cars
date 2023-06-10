@@ -67,12 +67,12 @@ class _LoginPageState extends State<LoginPage> {
           body: BlocConsumer<LoginCubit, LoginState>(
             listener: (ctx, state) {
               if (state.result.isSome()) {
-                if (state.result.asSome().isRight()) {
+                if (state.result.asSome.isRight()) {
                   /// navigate to Home Page on success
                   context.router.replace(const HomeRoute());
                 } else {
                   /// show error message on failure
-                  final error = state.result.asSome().asLeft();
+                  final error = state.result.asSome.asLeft;
                   context.scaffoldMessenger.showSnack(error, SnackbarType.error);
                 }
               }

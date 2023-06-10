@@ -1,30 +1,58 @@
 import 'package:bid_for_cars/core/entities/user.dart';
+import 'package:bid_for_cars/core/errors/cache_failures.dart';
+import 'package:bid_for_cars/core/errors/failures.dart';
+import 'package:bid_for_cars/i18n/translations.g.dart';
 import 'package:bid_for_cars/injection.dart';
 import 'package:bid_for_cars/presentation/common/bloc/auth/auth_cubit.dart';
+import 'package:bid_for_cars/presentation/extensions/failure.dart';
 import 'package:bid_for_cars/presentation/features/home/pages/home_page.dart';
-import 'package:bid_for_cars/presentation/features/splash/pages/splash_page.dart';
+import 'package:bid_for_cars/presentation/routes/router.dart';
+import 'package:bid_for_cars/presentation/theme/theme.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'splash_page_test.mocks.dart';
+class MockAuthCubit extends Mock implements AuthCubit {}
 
-@GenerateNiceMocks([MockSpec<AuthCubit>(), MockSpec<User>()])
+class MockUser extends Mock implements User {}
+
 void main() {
   late MockAuthCubit mockAuthCubit;
   late MockUser mockUser;
 
-  setUpAll(() {
-    configureDependencies();
-  });
+  /// helpers
+  /// cubit helpers
+  void whenAuthedState() {
+    whenListen(
+      mockAuthCubit,
+      Stream<AuthState>.fromIterable([
+        const AuthProcessing(),
+        Authenticated(mockUser),
+      ]),
+      initialState: const AuthInitial(),
+    );
+  }
 
-  setUp(() async {
-    mockAuthCubit = MockAuthCubit();
-    mockUser = MockUser();
+  void whenUnauthedState() {
+    whenListen(
+      mockAuthCubit,
+      Stream<AuthState>.fromIterable([
+        const AuthProcessing(),
+        Unauthenticated(const Failure.cacheFailure(CacheFailure.cacheGetFailure()).getMessage),
+      ]),
+      initialState: const AuthInitial(),
+    );
+  }
 
+  /// usecase helpers
+  void whenCheckAuth() => when(mockAuthCubit.checkAuth).thenAnswer((_) async {
+        await Future.delayed(const Duration(seconds: 2));
+      });
+
+  Future<void> injectableMock() async {
     if (getIt.isRegistered<AuthCubit>()) {
       /// unregister to clear the `real` object
       await getIt.unregister<AuthCubit>();
@@ -35,6 +63,17 @@ void main() {
       /// if not registered before, register now with the `mock` object
       getIt.registerSingleton<AuthCubit>(mockAuthCubit);
     }
+  }
+
+  setUpAll(() async {
+    configureDependencies();
+    mockAuthCubit = MockAuthCubit();
+    mockUser = MockUser();
+
+    await injectableMock();
+
+    /// arranges
+    whenCheckAuth();
   });
 
   tearDownAll(() async {
@@ -42,50 +81,45 @@ void main() {
   });
 
   Widget createWidgetUnderTest() {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthCubit>(create: (context) => getIt<AuthCubit>()..checkAuth()),
-      ],
-      child: const MaterialApp(
-        title: 'Carsxchange',
-        home: SplashPage(),
+    return BlocProvider<AuthCubit>(
+      create: (context) => mockAuthCubit..checkAuth(),
+      child: TranslationProvider(
+        child: Builder(
+          builder: (context) {
+            return MaterialApp.router(
+              title: 'Carsxchange',
+              debugShowCheckedModeBanner: false,
+              themeMode: ThemeMode.light,
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
+              routerConfig: getIt<AppRouter>().config(),
+              locale: TranslationProvider.of(context).flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            );
+          },
+        ),
       ),
     );
   }
 
-  /// helpers
-  /// cubit helpers
-  void whenInitState() => when(mockAuthCubit.state).thenReturn(const AuthInitial());
-  void whenAuthedState() => when(mockAuthCubit.state).thenReturn(Authenticated(mockUser));
-  void whenUnauthedState() => when(mockAuthCubit.state).thenReturn(const Unauthenticated("Error"));
-
-  /// usecase helpers
-  void whenCheckAuth() => when(mockAuthCubit.checkAuth()).thenAnswer((_) async {
-        print("whenCheckAuth ${mockAuthCubit.state}");
-        // whenAuthedState();
-        print("2 whenCheckAuth ${mockAuthCubit.state}");
-      });
-
   group('SplashPage', () {
     testWidgets(
-      'Splash page should be in `AuthInitial` state when app starts',
+      'Splash page `ProgressIndicator` is displayed initially',
       (WidgetTester tester) async {
-        // arrange
-        whenInitState();
-        // act
         await tester.pumpWidget(createWidgetUnderTest());
-        // assert
-        expect(mockAuthCubit.state, const AuthInitial());
-      },
-    );
-
-    testWidgets(
-      'Splash page `ProgressIndicator` is displayed',
-      (WidgetTester tester) async {
-        // act
-        await tester.pumpWidget(createWidgetUnderTest());
-        // assert
         expect(find.byType(LinearProgressIndicator), findsOneWidget);
+        // // arrange
+        // whenAuthedState();
+        // whenCheckAuth();
+        // // act
+        // await tester.pumpWidget(createWidgetUnderTest());
+        // print(mockAuthCubit.state);
+        // await tester.pump(const Duration(milliseconds: 200));
+        // print(mockAuthCubit.state);
+        // // assert
+        // expect(find.byType(LinearProgressIndicator), findsOneWidget);
+        // // expect(find.byType(HomePage), findsOneWidget);
       },
     );
 
@@ -95,18 +129,12 @@ void main() {
         // arrange
         whenAuthedState();
         whenCheckAuth();
-        whenListen(
-          mockAuthCubit,
-          Stream<AuthState>.fromIterable([
-            Authenticated(mockUser),
-          ]),
-          initialState: const AuthInitial(),
-        );
         // act
         await tester.pumpWidget(createWidgetUnderTest());
         await tester.pump();
+
         // assert
-        verify(mockAuthCubit.checkAuth());
+        verify(mockAuthCubit.checkAuth);
         expect(mockAuthCubit.state, Authenticated(mockUser));
         expect(find.byType(HomePage), findsOneWidget);
       },

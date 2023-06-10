@@ -1,12 +1,15 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/email_register_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
+import 'package:bid_for_cars/core/entities/auth_tokens.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/value_objects/common.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class IAuthRepository {
+  /// [RemoteDatasource]
+
   /// Login using email address
   ///
   /// [EmailLoginDto] containing [email] and [password]
@@ -32,7 +35,21 @@ abstract class IAuthRepository {
   /// [email] related to the account
   Future<Either<Failure, Unit>> resendVerificationCode(EmailAddress email);
 
-  /// Check for cached authentications
+  /// [LocalDatasource]
+
+  /// Get cached authentications user tokens
   ///
-  Future<Either<Failure, User>> getCachedAuth();
+  Future<Either<Failure, AuthTokens>> getCachedAuthTokens();
+
+  /// Cache authenticated user tokens
+  ///
+  Future<Either<Failure, Unit>> cachedAuthTokens(AuthTokens tokens);
+
+  /// Clear authenticated user tokens cache
+  ///
+  Future<Either<Failure, Unit>> clearAuthTokensCache();
+
+  /// Retrieve [User] from the [accessToken]
+  ///
+  Either<Failure, User> userFromToken(String accessToken);
 }

@@ -36,6 +36,14 @@ extension NullableFieldValidations on String? {
   }
 }
 
+Either<ValueFailure<String>, String> validateUserId(String input) {
+  if (input.isValidStringField) {
+    return Right(input);
+  } else {
+    return Left(ValueFailure.invalidUserId(failedValue: input));
+  }
+}
+
 Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   if (input.isValidEmail) {
     return Right(input);

@@ -91,7 +91,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           body: BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
             listener: (ctx, state) {
               if (state.result.isSome()) {
-                if (state.result.asSome().isRight()) {
+                if (state.result.asSome.isRight()) {
                   ///  show a success snack
                   context.scaffoldMessenger.showSnack(
                     t.auth.resetPassword.responses.submitSuccess,
@@ -102,7 +102,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   context.router.popUntilRouteWithName(LoginRoute.name);
                 } else {
                   /// show error message on failure
-                  final error = state.result.asSome().asLeft();
+                  final error = state.result.asSome.asLeft;
                   context.scaffoldMessenger.showSnack(error, SnackbarType.error);
                 }
               }

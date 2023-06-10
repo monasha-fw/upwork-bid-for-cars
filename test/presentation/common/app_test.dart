@@ -3,12 +3,10 @@ import 'package:bid_for_cars/presentation/common/app.dart';
 import 'package:bid_for_cars/presentation/common/bloc/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'app_test.mocks.dart';
+class MockAuthCubit extends Mock implements AuthCubit {}
 
-@GenerateNiceMocks([MockSpec<AuthCubit>()])
 void main() {
   late MockAuthCubit mockAuthCubit;
 
@@ -29,7 +27,7 @@ void main() {
       /// if not registered before, register now with the `mock` object
       getIt.registerSingleton<AuthCubit>(mockAuthCubit);
     }
-    when(mockAuthCubit.checkAuth()).thenAnswer((_) async => {});
+    when(mockAuthCubit.checkAuth).thenAnswer((_) async => {});
   });
 
   tearDownAll(() async {
@@ -65,7 +63,7 @@ void main() {
           /// Since the UI has a `LinearProgressIndicator`, use `pump` without the `settle` to build frames.
           await tester.pump();
           // assert
-          verify(mockAuthCubit.checkAuth());
+          verify(mockAuthCubit.checkAuth);
         },
       );
     },

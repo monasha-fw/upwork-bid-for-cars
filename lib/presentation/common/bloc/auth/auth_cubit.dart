@@ -16,10 +16,9 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._checkAuth) : super(const AuthState.initial());
 
   Future<void> checkAuth() async {
-    print("checkAuth===");
     emit(const AuthProcessing());
     final either = await _checkAuth();
-    if (either.isLeft()) return emit(Unauthenticated(either.asLeft().getMessage));
-    emit(Authenticated(either.asRight()));
+    if (either.isLeft()) return emit(Unauthenticated(either.asLeft.getMessage));
+    emit(Authenticated(either.asRight));
   }
 }

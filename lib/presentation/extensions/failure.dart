@@ -5,9 +5,9 @@ extension FailuresMapper on Failure {
   String get getMessage => maybeMap(
         unexpectedError: (sf) => sf.message,
         cacheFailure: (cf) => cf.f.map(
-          cacheClearFailure: (f) => f.message,
-          cacheSetFailure: (f) => f.message,
-          cacheGetFailure: (f) => f.message,
+          cacheClearFailure: (f) => f.message ?? t.common.errors.cacheFailure,
+          cacheSetFailure: (f) => f.message ?? t.common.errors.cacheFailure,
+          cacheGetFailure: (f) => f.message ?? t.common.errors.cacheFailure,
         ),
         networkFailure: (nf) => nf.f.map(
           // TODO - Add rest of error messages to translations

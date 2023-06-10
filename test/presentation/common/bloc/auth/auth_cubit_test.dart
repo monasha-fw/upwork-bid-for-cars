@@ -3,15 +3,16 @@ import 'package:bid_for_cars/core/errors/cache_failures.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/usecases/auth/check_auth.dart';
 import 'package:bid_for_cars/presentation/common/bloc/auth/auth_cubit.dart';
+import 'package:bid_for_cars/presentation/extensions/failure.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'auth_cubit_test.mocks.dart';
+class MockCheckAuth extends Mock implements CheckAuth {}
 
-@GenerateNiceMocks([MockSpec<CheckAuth>(), MockSpec<User>()])
+class MockUser extends Mock implements User {}
+
 void main() {
   late AuthCubit authCubit;
   late MockCheckAuth mockCheckAuth;
@@ -24,8 +25,8 @@ void main() {
   });
 
   /// helpers
-  whenHasCache() => when(mockCheckAuth.call()).thenAnswer((_) async => Right(mockUser));
-  whenNoCache() => when(mockCheckAuth.call())
+  whenHasCache() => when(mockCheckAuth.call).thenAnswer((_) async => Right(mockUser));
+  whenNoCache() => when(mockCheckAuth.call)
       .thenAnswer((_) async => const Left(Failure.cacheFailure(CacheFailure.cacheGetFailure())));
 
   group('AuthCubit', () {
@@ -40,7 +41,7 @@ void main() {
         build: () => authCubit,
         setUp: whenHasCache,
         act: (cubit) => cubit.checkAuth(),
-        verify: (_) => verify(mockCheckAuth.call()).called(1),
+        verify: (_) => verify(mockCheckAuth.call).called(1),
       );
 
       blocTest(
@@ -55,13 +56,13 @@ void main() {
       );
 
       blocTest(
-        'should change state to `Unauthenticated` when no previous caches exists',
+        "should change state to `Unauthenticated` when there's no valid previous caches in the device",
         build: () => authCubit,
         setUp: whenNoCache,
         act: (cubit) => cubit.checkAuth(),
         expect: () => <AuthState>[
           const AuthProcessing(),
-          const Unauthenticated("Failed to retrieve data from device"),
+          Unauthenticated(const Failure.cacheFailure(CacheFailure.cacheGetFailure()).getMessage),
         ],
       );
     });

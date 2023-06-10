@@ -21,7 +21,7 @@ class ForgotPasswordActionsCubit extends Cubit<ForgotPasswordActionsState> {
 
     final either = await _resendVerificationCode(email);
 
-    if (either.isLeft()) return emit(ForgotPasswordActionsFailure(either.asLeft().getMessage));
+    if (either.isLeft()) return emit(ForgotPasswordActionsFailure(either.asLeft.getMessage));
     return emit(const ForgotPasswordActionsSuccess());
   }
 }

@@ -7,7 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
-  const userModel = UserModel(firstName: "firstName", lastName: "lastName", email: "email");
+  const userModel =
+      UserModel(id: "1", firstName: "firstName", lastName: "lastName", email: "email");
 
   test(
     '`toDomain` should be a instance of User entity',

@@ -1,6 +1,7 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/email_register_dto.dart';
 import 'package:bid_for_cars/core/dtos/auth/password_reset_dto.dart';
+import 'package:bid_for_cars/core/entities/auth_tokens.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/repositories/i_auth_repository.dart';
@@ -43,7 +44,22 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> getCachedAuth() {
-    return _localDatasource.getCachedAuth();
+  Future<Either<Failure, Unit>> cachedAuthTokens(AuthTokens tokens) {
+    return _localDatasource.cachedAuthTokens(tokens);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> clearAuthTokensCache() {
+    return _localDatasource.clearAuthTokensCache();
+  }
+
+  @override
+  Future<Either<Failure, AuthTokens>> getCachedAuthTokens() {
+    return _localDatasource.getCachedAuthTokens();
+  }
+
+  @override
+  Either<Failure, User> userFromToken(String accessToken) {
+    return _localDatasource.userFromToken(accessToken);
   }
 }

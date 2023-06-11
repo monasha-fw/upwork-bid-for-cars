@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:bid_for_cars/i18n/translations.g.dart';
 import 'package:bid_for_cars/infrastructure/network/http_client.dart';
-import 'package:bid_for_cars/infrastructure/network/i_network_info.dart';
+import 'package:bid_for_cars/infrastructure/network/network_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -33,12 +34,13 @@ void main() {
         () async {
           // arrange
           when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => false);
+          when(() => httpClient.get(any())).thenThrow(SocketException(t.common.errors.noInternet));
           // act
           final call = httpClient.get;
           // assert
           expect(
             () => call(('/')),
-            throwsA(const SocketException("No working internet connections found")),
+            throwsA(SocketException(t.common.errors.noInternet)),
           );
         },
       );

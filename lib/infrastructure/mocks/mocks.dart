@@ -5,7 +5,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 part 'mocks.freezed.dart';
 part 'mocks.g.dart';
 
-class DioMocks {
+class MockingData {
   static const String accessToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyQG1haWwuY29tIiwiaWF0IjoxNTE2MjM5MDIyfQ.e0R6TLnfoBXN0Eg2AHz-n3fNI6kzurgt3_BEVU53_ko";
 
@@ -122,7 +122,7 @@ class DioMocks {
       queryParameters: {"limit": 10, "page": 1},
       (server) => server.reply(
         200,
-        cars,
+        allCarsData,
         delay: const Duration(milliseconds: 300),
       ),
     );
@@ -134,7 +134,7 @@ class DioMocks {
       queryParameters: {"status": "live", "limit": 10, "page": 1},
       (server) => server.reply(
         200,
-        cars.where((e) => e['status'] == "live").toList(),
+        liveCarsData,
         delay: const Duration(milliseconds: 300),
       ),
     );
@@ -146,7 +146,7 @@ class DioMocks {
       queryParameters: {"status": "expired", "limit": 10, "page": 1},
       (server) => server.reply(
         200,
-        cars.where((e) => e['status'] == "expired").toList(),
+        expiredCarsData,
         delay: const Duration(milliseconds: 300),
       ),
     );
@@ -163,6 +163,12 @@ class DioMocks {
       ),
     );
   }
+
+  static List<Map<String, dynamic>> get allCarsData => cars;
+  static List<Map<String, dynamic>> get liveCarsData =>
+      cars.where((e) => e['status'] == "live").toList();
+  static List<Map<String, dynamic>> get expiredCarsData =>
+      cars.where((e) => e['status'] == "expired").toList();
 }
 
 final cars = [

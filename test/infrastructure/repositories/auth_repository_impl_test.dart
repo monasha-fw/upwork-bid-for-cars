@@ -5,7 +5,7 @@ import 'package:bid_for_cars/core/errors/network_failure.dart';
 import 'package:bid_for_cars/core/value_objects/value_objects.dart';
 import 'package:bid_for_cars/infrastructure/datasources/local_datasource/auth_local_datasource.dart';
 import 'package:bid_for_cars/infrastructure/datasources/remote_datasource/auth_remote_datasource.dart';
-import 'package:bid_for_cars/infrastructure/network/i_network_info.dart';
+import 'package:bid_for_cars/infrastructure/network/network_info.dart';
 import 'package:bid_for_cars/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';

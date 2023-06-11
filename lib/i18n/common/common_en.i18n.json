@@ -4,6 +4,7 @@
     "cacheFailure": "Cache failure.",
     "somethingWentWrong": "Something Went Wrong.",
     "noAuthCache": "No previous logged in sessions found.",
+    "noInternet": "No working internet connections found.",
     "unauthorized": "Unauthorized."
   }
 }

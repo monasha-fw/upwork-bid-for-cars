@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bid_for_cars/i18n/translations.g.dart';
 import 'package:bid_for_cars/infrastructure/constants/endpoint_urls.dart';
 import 'package:bid_for_cars/infrastructure/mocks/mocks.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +8,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:injectable/injectable.dart';
 
 import 'i_http_client.dart';
-import 'i_network_info.dart';
+import 'network_info.dart';
 
 /// will bypass accessToken check on these urls
 const noneAuthedRoute = [
@@ -30,7 +31,7 @@ class AppHttpClient implements IHttpClient {
 
       /// TODO - Mocks only for testing without a server
       ..httpClientAdapter = dioAdapter;
-    DioMocks().init(dioAdapter);
+    MockingData().init(dioAdapter);
 
     /// TODO refresh token interceptor
     // dio.interceptors.add(
@@ -52,7 +53,7 @@ class AppHttpClient implements IHttpClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
+      throw SocketException(t.common.errors.noInternet);
     }
 
     try {
@@ -75,6 +76,12 @@ class AppHttpClient implements IHttpClient {
     }
   }
 
+  Future<void> checkInternetConnectivity() async {
+    if (!(await networkInfo.isConnected)) {
+      throw SocketException(t.common.errors.noInternet);
+    }
+  }
+
   @override
   Future<Response> post(
     String uri, {
@@ -85,9 +92,7 @@ class AppHttpClient implements IHttpClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
-    }
+    await checkInternetConnectivity();
 
     try {
       var newOptions = options ?? Options(contentType: Headers.jsonContentType);
@@ -119,7 +124,7 @@ class AppHttpClient implements IHttpClient {
     CancelToken? cancelToken,
   }) async {
     if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
+      throw SocketException(t.common.errors.noInternet);
     }
 
     try {
@@ -149,7 +154,7 @@ class AppHttpClient implements IHttpClient {
     ProgressCallback? onSendProgress,
   }) async {
     if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
+      throw SocketException(t.common.errors.noInternet);
     }
 
     try {
@@ -181,7 +186,7 @@ class AppHttpClient implements IHttpClient {
     ProgressCallback? onSendProgress,
   }) async {
     if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
+      throw SocketException(t.common.errors.noInternet);
     }
 
     try {

@@ -1,43 +1,51 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
+import 'package:bid_for_cars/core/entities/auth_tokens.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/core/repositories/i_auth_repository.dart';
 import 'package:bid_for_cars/core/usecases/auth/email_login_user.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockIAuthRepository extends Mock implements IAuthRepository {}
+import 'email_login_user_test.mocks.dart';
 
-class MockEmailLoginDto extends Mock implements EmailLoginDto {}
-
-class MockUser extends Mock implements User {}
-
+@GenerateNiceMocks([
+  MockSpec<IAuthRepository>(),
+  MockSpec<EmailLoginDto>(),
+  MockSpec<AuthTokens>(),
+  MockSpec<User>()
+])
 void main() {
   late EmailLoginUser usecase;
   late MockIAuthRepository mockIAuthRepository;
+  late MockEmailLoginDto mockDto;
+  late MockAuthTokens mockAuthTokens;
+  late MockUser mockUser;
 
-  setUpAll(() {
+  setUp(() {
+    mockDto = MockEmailLoginDto();
+    mockAuthTokens = MockAuthTokens();
     mockIAuthRepository = MockIAuthRepository();
+    mockUser = MockUser();
     usecase = EmailLoginUser(mockIAuthRepository);
-
-    registerFallbackValue(MockEmailLoginDto());
   });
 
-  final mockDto = MockEmailLoginDto();
-  final mockUser = MockUser();
-
   test(
-    'login user using email and password',
+    'Should return a `User` when logged in using a valid email and password',
     () async {
       // arrange
-      when(() => mockIAuthRepository.loginUserEmail(captureAny()))
-          .thenAnswer((_) async => Right(mockUser));
+      when(mockAuthTokens.accessToken).thenReturn("accessToken");
+      when(mockIAuthRepository.userFromToken(any)).thenReturn(Right(mockUser));
+      when(mockIAuthRepository.loginUserEmail(mockDto))
+          .thenAnswer((_) async => Right(mockAuthTokens));
       // act
       final result = await usecase(mockDto);
       // assert
-      expect(result, Right(mockUser));
-      verify(() => mockIAuthRepository.loginUserEmail(mockDto));
+      verify(mockIAuthRepository.loginUserEmail(mockDto));
+      verify(mockIAuthRepository.userFromToken(mockAuthTokens.accessToken));
       verifyNoMoreInteractions(mockIAuthRepository);
+      expect(result, Right(mockUser));
     },
   );
 }

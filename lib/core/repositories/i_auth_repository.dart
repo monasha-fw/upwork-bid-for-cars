@@ -13,7 +13,7 @@ abstract class IAuthRepository {
   /// Login using email address
   ///
   /// [EmailLoginDto] containing [email] and [password]
-  Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto);
+  Future<Either<Failure, AuthTokens>> loginUserEmail(EmailLoginDto dto);
 
   /// Create an account using a email address
   ///

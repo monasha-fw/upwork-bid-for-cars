@@ -2,7 +2,10 @@ import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/i18n/translations.g.dart';
 
 extension FailuresMapper on Failure {
-  String get getMessage => maybeMap(
+  String get getMessage => map(
+        authFailure: (af) => af.f.map(
+          tokenExpired: (_) => t.common.errors.authFailures.tokenExpired,
+        ),
         unexpectedError: (sf) => sf.message,
         cacheFailure: (cf) => cf.f.map(
           cacheClearFailure: (f) => f.message ?? t.common.errors.cacheFailure,
@@ -18,7 +21,6 @@ extension FailuresMapper on Failure {
           methodNotAllowed: (f) => t.common.errors.somethingWentWrong,
           notAcceptable: (f) => t.common.errors.somethingWentWrong,
           requestTimeout: (f) => t.common.errors.somethingWentWrong,
-          sendTimeout: (f) => t.common.errors.somethingWentWrong,
           conflict: (f) => t.common.errors.somethingWentWrong,
           internalServerError: (f) => t.common.errors.somethingWentWrong,
           notImplemented: (f) => t.common.errors.somethingWentWrong,
@@ -27,8 +29,12 @@ extension FailuresMapper on Failure {
           noInternetConnection: (f) => t.common.errors.somethingWentWrong,
           defaultError: (f) => f.error,
           unexpectedError: (f) => f.data.toString(),
+          badCertificate: (f) => t.common.errors.somethingWentWrong,
+          badResponse: (f) => t.common.errors.somethingWentWrong,
+          connectionError: (f) => t.common.errors.somethingWentWrong,
         ),
-        // TODO - add all the errors
-        orElse: () => t.common.errors.somethingWentWrong,
+        ignoringFailure: (_) => "",
+        formatException: (fe) => fe.exception.message,
+        unableToProcess: (uf) => uf.error,
       );
 }

@@ -173,10 +173,10 @@ packages:
     dependency: transitive
     description:
       name: code_builder
-      sha256: "0d43dd1288fd145de1ecc9a3948ad4a6d5a82f0a14c4fdd0892260787d975cbe"
+      sha256: "4ad01d6e56db961d29661561effde45e519939fdaeb46c351275b182eac70189"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.0"
   collection:
     dependency: transitive
     description:
@@ -261,10 +261,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
+      sha256: dfda195cbf351d538054297bbd509d8046d336194ea218655f2c326c65711d1e
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.6"
+    version: "5.2.1"
   dots_indicator:
     dependency: "direct main"
     description:
@@ -483,10 +483,10 @@ packages:
     dependency: "direct dev"
     description:
       name: http_mock_adapter
-      sha256: "6fa1a00932a5758750f54c5594f8bf37393fe5ae86e49325281b5a9d99114f33"
+      sha256: "00f48d69f31d79e389f7a8544b266a214020a8b79d9f376f54e84ae13d3e2965"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3"
+    version: "0.4.4"
   http_multi_server:
     dependency: transitive
     description:
@@ -636,8 +636,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  mocktail:
+  mockito:
     dependency: "direct dev"
+    description:
+      name: mockito
+      sha256: "7d5b53bcd556c1bc7ffbe4e4d5a19c3e112b7e925e9e172dd7c6ad0630812616"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.2"
+  mocktail:
+    dependency: transitive
     description:
       name: mocktail
       sha256: "80a996cd9a69284b3dc521ce185ffe9150cde69767c2d3a0720147d93c0cef53"

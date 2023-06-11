@@ -12,8 +12,8 @@ abstract class ExternalLibraryInjectableModule {
     return Dio(
       BaseOptions(
         baseUrl: EndpointUrls.baseUrl,
-        connectTimeout: Duration.millisecondsPerMinute,
-        receiveTimeout: Duration.millisecondsPerMinute,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
       ),
     );
   }

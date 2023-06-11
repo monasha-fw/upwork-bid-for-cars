@@ -6,14 +6,16 @@ import 'package:bid_for_cars/infrastructure/network/network_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockDio extends Mock implements Dio {}
+import 'http_client_test.mocks.dart';
 
-class MockINetworkInfo extends Mock implements INetworkInfo {}
-
-class MockDioAdapter extends Mock implements DioAdapter {}
-
+@GenerateNiceMocks([
+  MockSpec<Dio>(),
+  MockSpec<INetworkInfo>(),
+  MockSpec<DioAdapter>(),
+])
 void main() {
   late AppHttpClient httpClient;
   late MockDio mockDio;
@@ -33,13 +35,14 @@ void main() {
         'should throws a `SocketException("No working internet connections found")` when internet is not connected',
         () async {
           // arrange
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => false);
-          when(() => httpClient.get(any())).thenThrow(SocketException(t.common.errors.noInternet));
+          when(httpClient.get("/"))
+              .thenAnswer((_) async => throw SocketException(t.common.errors.noInternet));
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final call = httpClient.get;
           // assert
-          expect(
-            () => call(('/')),
+          expectLater(
+            call(('/')),
             throwsA(SocketException(t.common.errors.noInternet)),
           );
         },
@@ -56,8 +59,8 @@ void main() {
             statusCode: 200,
             requestOptions: RequestOptions(path: '/ping', responseType: ResponseType.json),
           );
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => mockDio.get(any())).thenAnswer((_) async => response);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(mockDio.get("/ping")).thenAnswer((_) async => response);
           // act
           final result = await mockDio.get("/ping");
           // assert
@@ -73,7 +76,7 @@ void main() {
         'should throws a `SocketException("No working internet connections found")` when internet is not connected',
         () async {
           // arrange
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => false);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final call = httpClient.post;
           // assert
@@ -95,10 +98,10 @@ void main() {
             statusCode: 200,
             requestOptions: RequestOptions(path: '/ping', responseType: ResponseType.json),
           );
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => mockDio.post(any(), data: any())).thenAnswer((_) async => response);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(mockDio.post("/ping", data: anyNamed('data'))).thenAnswer((_) async => response);
           // act
-          final result = await mockDio.post("/ping", data: "1");
+          final result = await mockDio.post("/ping", data: 'data');
           // assert
           expect(result, equals(response));
         },
@@ -112,7 +115,7 @@ void main() {
         'should throws a `SocketException("No working internet connections found")` when internet is not connected',
         () async {
           // arrange
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => false);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final call = httpClient.delete;
           // assert
@@ -133,10 +136,10 @@ void main() {
             statusCode: 204,
             requestOptions: RequestOptions(path: '/ping', responseType: ResponseType.json),
           );
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => mockDio.delete(any(), data: any())).thenAnswer((_) async => response);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(mockDio.delete("/ping", data: anyNamed('data'))).thenAnswer((_) async => response);
           // act
-          final result = await mockDio.delete("/ping", data: "1");
+          final result = await mockDio.delete("/ping", data: 'data');
           // assert
           expect(result, equals(response));
         },
@@ -150,7 +153,7 @@ void main() {
         'should throws a `SocketException("No working internet connections found")` when internet is not connected',
         () async {
           // arrange
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => false);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final call = httpClient.patch;
           // assert
@@ -171,10 +174,10 @@ void main() {
             statusCode: 204,
             requestOptions: RequestOptions(path: '/ping', responseType: ResponseType.json),
           );
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => mockDio.patch(any(), data: any())).thenAnswer((_) async => response);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(mockDio.patch("/ping", data: anyNamed('data'))).thenAnswer((_) async => response);
           // act
-          final result = await mockDio.patch("/ping", data: "1");
+          final result = await mockDio.patch("/ping", data: 'data');
           // assert
           expect(result, equals(response));
         },
@@ -188,14 +191,15 @@ void main() {
         'should throws a `SocketException("No working internet connections found")` when internet is not connected',
         () async {
           // arrange
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => false);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
-          final call = httpClient.put;
+          // final call = httpClient.put;
           // assert
           expect(
-            () => call(('/')),
+            () => httpClient.put('/'),
             throwsA(const SocketException("No working internet connections found")),
           );
+          verifyNever(mockDio.put('/'));
         },
       );
     });
@@ -209,10 +213,10 @@ void main() {
             statusCode: 204,
             requestOptions: RequestOptions(path: '/ping', responseType: ResponseType.json),
           );
-          when(() => mockINetworkInfo.isConnected).thenAnswer((_) async => true);
-          when(() => mockDio.put(any(), data: any())).thenAnswer((_) async => response);
+          when(mockINetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(mockDio.put("/ping", data: anyNamed('data'))).thenAnswer((_) async => response);
           // act
-          final result = await mockDio.put("/ping", data: "1");
+          final result = await mockDio.put("/ping", data: 'data');
           // assert
           expect(result, equals(response));
         },

@@ -17,7 +17,7 @@ dependencies:
   json_annotation: ^4.8.0
 
   # api utils
-  dio: ^4.0.6
+  dio: ^5.2.1
   dart_jsonwebtoken: ^2.8.0
 
   # caching
@@ -72,7 +72,7 @@ dev_dependencies:
   json_serializable: ^6.6.1
 
   # mocking
-  http_mock_adapter: ^0.3.3
+  http_mock_adapter: ^0.4.4
 
   # testing
   flutter_test:
@@ -80,8 +80,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   bloc_test: ^9.1.3
-  #  mockito: ^5.4.0
-  mocktail: ^0.3.0
+  mockito: ^5.4.2
 
 flutter:
   uses-material-design: true

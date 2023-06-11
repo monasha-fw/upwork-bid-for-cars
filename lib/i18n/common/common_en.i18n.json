@@ -1,6 +1,10 @@
 {
+  "appTitle": "Carsxchange",
   "and": "and",
   "errors": {
+    "authFailures": {
+      "tokenExpired": "Session is expired. Please login again."
+    },
     "cacheFailure": "Cache failure.",
     "somethingWentWrong": "Something Went Wrong.",
     "noAuthCache": "No previous logged in sessions found.",

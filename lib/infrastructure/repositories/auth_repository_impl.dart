@@ -19,7 +19,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   const AuthRepositoryImpl(this._remoteDatasource, this._localDatasource);
 
   @override
-  Future<Either<Failure, User>> loginUserEmail(EmailLoginDto dto) {
+  Future<Either<Failure, AuthTokens>> loginUserEmail(EmailLoginDto dto) {
     return _remoteDatasource.loginUserEmail(dto);
   }
 

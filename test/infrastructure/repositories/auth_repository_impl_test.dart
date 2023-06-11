@@ -1,54 +1,52 @@
 import 'package:bid_for_cars/core/dtos/auth/email_login_dto.dart';
-import 'package:bid_for_cars/core/entities/user.dart';
+import 'package:bid_for_cars/core/entities/auth_tokens.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/errors/network_failure.dart';
-import 'package:bid_for_cars/core/value_objects/value_objects.dart';
 import 'package:bid_for_cars/infrastructure/datasources/local_datasource/auth_local_datasource.dart';
 import 'package:bid_for_cars/infrastructure/datasources/remote_datasource/auth_remote_datasource.dart';
 import 'package:bid_for_cars/infrastructure/network/network_info.dart';
 import 'package:bid_for_cars/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockAuthRemoteDatasource extends Mock implements AuthRemoteDatasource {}
+import 'auth_repository_impl_test.mocks.dart';
 
-class MockAuthLocalDatasource extends Mock implements AuthLocalDatasource {}
-
-class MockINetworkInfo extends Mock implements INetworkInfo {}
-
+@GenerateNiceMocks([
+  MockSpec<AuthRemoteDatasource>(),
+  MockSpec<AuthLocalDatasource>(),
+  MockSpec<INetworkInfo>(),
+  MockSpec<EmailLoginDto>(),
+  MockSpec<AuthTokens>()
+])
 void main() {
   late AuthRepositoryImpl repository;
   late MockAuthRemoteDatasource mockAuthRemoteDatasource;
   late MockAuthLocalDatasource mockAuthLocalDatasource;
+  late MockEmailLoginDto mockDto;
+  late MockAuthTokens mockAuthTokens;
 
   setUp(() {
+    mockDto = MockEmailLoginDto();
+    mockAuthTokens = MockAuthTokens();
     mockAuthRemoteDatasource = MockAuthRemoteDatasource();
     mockAuthLocalDatasource = MockAuthLocalDatasource();
     repository = AuthRepositoryImpl(mockAuthRemoteDatasource, mockAuthLocalDatasource);
   });
 
   group('loginUserEmail', () {
-    final uId = UserId("1");
-    final uEmail = EmailAddress("johndoe@mail.com");
-    final uPassword = Password("Pass1234");
-    final uFirstName = FirstName("John");
-    final uLastName = LastName("Doe");
-
-    final loginDto = EmailLoginDto(email: uEmail, password: uPassword);
-    final user = User(id: uId, firstName: uFirstName, lastName: uLastName, email: uEmail);
-
     test(
       'should return a remote data when the call is success',
       () async {
         // arrange
-        when(() => mockAuthRemoteDatasource.loginUserEmail(any()))
-            .thenAnswer((_) async => Right(user));
+        when(mockAuthRemoteDatasource.loginUserEmail(mockDto))
+            .thenAnswer((_) async => Right(mockAuthTokens));
         // act
-        final result = await repository.loginUserEmail(loginDto);
+        final result = await repository.loginUserEmail(mockDto);
         // assert
-        verify(() => mockAuthRemoteDatasource.loginUserEmail(loginDto));
-        expect(result, equals(Right(user)));
+        verify(mockAuthRemoteDatasource.loginUserEmail(mockDto));
+        expect(result, equals(Right(mockAuthTokens)));
       },
     );
 
@@ -56,13 +54,13 @@ void main() {
       'should return a failure when the call to remote data source is unsuccessful',
       () async {
         // arrange
-        when(() => mockAuthRemoteDatasource.loginUserEmail(any())).thenAnswer(
+        when(mockAuthRemoteDatasource.loginUserEmail(mockDto)).thenAnswer(
           (_) async => const Left(Failure.networkFailure(NetworkFailure.unexpectedError("error"))),
         );
         // act
-        final result = await repository.loginUserEmail(loginDto);
+        final result = await repository.loginUserEmail(mockDto);
         // assert
-        verify(() => mockAuthRemoteDatasource.loginUserEmail(loginDto));
+        verify(mockAuthRemoteDatasource.loginUserEmail(mockDto));
         expect(
           result,
           equals(const Left(Failure.networkFailure(NetworkFailure.unexpectedError("error")))),

@@ -3,6 +3,7 @@ abstract class EndpointUrls {
 
   /// Auth
   static const String loginUserEmail = "/api/auth/login";
+  static const String refreshTokens = "/api/auth/refresh";
   static const String registerUserEmail = "/api/auth/register";
   static const String forgottenPasswordResetRequest = "/api/auth/forgotPassword";
   static const String resetPassword = "/api/auth/resetPassword";

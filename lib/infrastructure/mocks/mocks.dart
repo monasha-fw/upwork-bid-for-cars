@@ -9,7 +9,7 @@ class MockingData {
   static const String accessToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyQG1haWwuY29tIiwiaWF0IjoxNTE2MjM5MDIyfQ.e0R6TLnfoBXN0Eg2AHz-n3fNI6kzurgt3_BEVU53_ko";
 
-  void init(DioAdapter dioAdapter) {
+  static void init(DioAdapter dioAdapter) {
     mockAuthData(dioAdapter);
     mockHomeData(dioAdapter);
   }
@@ -114,7 +114,7 @@ class MockingData {
     );
   }
 
-  void mockHomeData(DioAdapter dioAdapter) {
+  static void mockHomeData(DioAdapter dioAdapter) {
     /// All Cars
     /// Success - 200
     dioAdapter.onGet(

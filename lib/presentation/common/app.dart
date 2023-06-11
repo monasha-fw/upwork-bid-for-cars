@@ -21,7 +21,7 @@ class App extends StatelessWidget {
         child: Builder(builder: (context) {
           /// Material app initialization
           return MaterialApp.router(
-            title: 'Carsxchange',
+            onGenerateTitle: (context) => t.common.appTitle,
             debugShowCheckedModeBanner: false,
             themeMode: ThemeMode.light,
             theme: AppTheme.light,

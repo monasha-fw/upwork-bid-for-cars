@@ -7,12 +7,12 @@ import 'package:bid_for_cars/presentation/extensions/failure.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockCheckAuth extends Mock implements CheckAuth {}
+import 'auth_cubit_test.mocks.dart';
 
-class MockUser extends Mock implements User {}
-
+@GenerateNiceMocks([MockSpec<CheckAuth>(), MockSpec<User>()])
 void main() {
   late AuthCubit authCubit;
   late MockCheckAuth mockCheckAuth;
@@ -25,8 +25,8 @@ void main() {
   });
 
   /// helpers
-  whenHasCache() => when(mockCheckAuth.call).thenAnswer((_) async => Right(mockUser));
-  whenNoCache() => when(mockCheckAuth.call)
+  whenHasCache() => when(mockCheckAuth.call()).thenAnswer((_) async => Right(mockUser));
+  whenNoCache() => when(mockCheckAuth.call())
       .thenAnswer((_) async => const Left(Failure.cacheFailure(CacheFailure.cacheGetFailure())));
 
   group('AuthCubit', () {
@@ -41,7 +41,7 @@ void main() {
         build: () => authCubit,
         setUp: whenHasCache,
         act: (cubit) => cubit.checkAuth(),
-        verify: (_) => verify(mockCheckAuth.call).called(1),
+        verify: (_) => verify(mockCheckAuth.call()),
       );
 
       blocTest(

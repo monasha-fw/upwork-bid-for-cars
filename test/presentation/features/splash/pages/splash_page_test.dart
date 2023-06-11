@@ -7,14 +7,12 @@ import 'package:bid_for_cars/presentation/routes/router.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockAuthCubit extends Mock implements AuthCubit {}
+import 'splash_page_test.mocks.dart';
 
-class MockAppRouter extends Mock implements AppRouter {}
-
-class MockUser extends Mock implements User {}
-
+@GenerateNiceMocks([MockSpec<AppRouter>(), MockSpec<AuthCubit>(), MockSpec<User>()])
 void main() {
   late MockAuthCubit mockAuthCubit;
   late MockAppRouter mockAppRouter;
@@ -26,9 +24,9 @@ void main() {
     mockUser = MockUser();
 
     /// injected mocks' methods
-    when(mockAuthCubit.checkAuth).thenAnswer((_) async {});
-    when(mockAuthCubit.close).thenAnswer((_) async {});
-    when(mockAppRouter.config).thenReturn(AppRouter().config());
+    when(mockAuthCubit.checkAuth()).thenAnswer((_) async {});
+    when(mockAuthCubit.close()).thenAnswer((_) async {});
+    when(mockAppRouter.config()).thenReturn(AppRouter().config());
 
     /// DI
     getIt.registerSingleton<AuthCubit>(mockAuthCubit);

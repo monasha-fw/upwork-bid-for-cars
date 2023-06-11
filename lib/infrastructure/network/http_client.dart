@@ -21,27 +21,16 @@ class AppHttpClient implements IHttpClient {
   final INetworkInfo networkInfo;
   final DioAdapter dioAdapter;
 
-  AppHttpClient(
-    this.dio,
-    this.networkInfo,
-    this.dioAdapter,
-  ) {
-    dio
-      ..httpClientAdapter
+  AppHttpClient(this.dio, this.networkInfo, this.dioAdapter) {
+    /// TODO - Mocks only for testing without a server
+    dio.httpClientAdapter = dioAdapter;
+    MockingData.init(dioAdapter);
+  }
 
-      /// TODO - Mocks only for testing without a server
-      ..httpClientAdapter = dioAdapter;
-    MockingData().init(dioAdapter);
-
-    /// TODO refresh token interceptor
-    // dio.interceptors.add(
-    //   QueuedInterceptorsWrapper(
-    //     onRequest: (options, handler) async {
-    //       /// check if the token is appended from the datasource function
-    //       return handler.next(options);
-    //     },
-    //   ),
-    // );
+  /// internet connectivity check
+  Future<void> _checkInternetConnectivity() async {
+    print("await networkInfo.isConnected ${!(await networkInfo.isConnected)}");
+    if (!(await networkInfo.isConnected)) throw SocketException(t.common.errors.noInternet);
   }
 
   @override
@@ -52,47 +41,31 @@ class AppHttpClient implements IHttpClient {
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw SocketException(t.common.errors.noInternet);
-    }
+    await _checkInternetConnectivity();
 
-    try {
-      var newOptions = options ?? Options(contentType: Headers.jsonContentType);
+    var newOptions = options ?? Options(contentType: Headers.jsonContentType);
 
-      Response response = await dio.get(
-        uri,
-        queryParameters: queryParameters,
-        options: newOptions,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return response;
-    } on SocketException catch (e) {
-      throw SocketException(e.toString());
-    } on FormatException catch (_) {
-      throw const FormatException();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> checkInternetConnectivity() async {
-    if (!(await networkInfo.isConnected)) {
-      throw SocketException(t.common.errors.noInternet);
-    }
+    Response response = await dio.get(
+      uri,
+      queryParameters: queryParameters,
+      options: newOptions,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+    );
+    return response;
   }
 
   @override
   Future<Response> post(
     String uri, {
-    data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    await checkInternetConnectivity();
+    await _checkInternetConnectivity();
 
     try {
       var newOptions = options ?? Options(contentType: Headers.jsonContentType);
@@ -119,13 +92,11 @@ class AppHttpClient implements IHttpClient {
   Future<dynamic> delete(
     String uri, {
     Map<String, dynamic>? queryParameters,
-    data,
+    Object? data,
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw SocketException(t.common.errors.noInternet);
-    }
+    await _checkInternetConnectivity();
 
     try {
       var response = await dio.delete(
@@ -147,15 +118,13 @@ class AppHttpClient implements IHttpClient {
   Future<dynamic> patch(
     String uri, {
     Map<String, dynamic>? queryParameters,
-    data,
+    Object? data,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
     ProgressCallback? onSendProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw SocketException(t.common.errors.noInternet);
-    }
+    await _checkInternetConnectivity();
 
     try {
       var response = await dio.patch(
@@ -179,15 +148,13 @@ class AppHttpClient implements IHttpClient {
   Future<dynamic> put(
     String uri, {
     Map<String, dynamic>? queryParameters,
-    data,
+    Object? data,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
     ProgressCallback? onSendProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw SocketException(t.common.errors.noInternet);
-    }
+    await _checkInternetConnectivity();
 
     try {
       var response = await dio.put(

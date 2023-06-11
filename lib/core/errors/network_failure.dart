@@ -8,7 +8,13 @@ class NetworkFailure with _$NetworkFailure {
 
   const factory NetworkFailure.unauthorisedRequest(String? errorMessage) = UnauthorisedRequest;
 
+  const factory NetworkFailure.badCertificate() = BadCertificate;
+
   const factory NetworkFailure.badRequest() = BadRequest;
+
+  const factory NetworkFailure.badResponse() = BadResponse;
+
+  const factory NetworkFailure.connectionError() = ConnectionError;
 
   const factory NetworkFailure.notFound(dynamic error) = NotFound;
 
@@ -17,8 +23,6 @@ class NetworkFailure with _$NetworkFailure {
   const factory NetworkFailure.notAcceptable() = NotAcceptable;
 
   const factory NetworkFailure.requestTimeout() = RequestTimeout;
-
-  const factory NetworkFailure.sendTimeout() = SendTimeout;
 
   const factory NetworkFailure.conflict() = Conflict;
 

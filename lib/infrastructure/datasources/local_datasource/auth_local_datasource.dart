@@ -86,10 +86,10 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
   Either<Failure, User> userFromToken(String accessToken) {
     try {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-      final user = UserModel.fromJson(decodedToken).toDomain();
+      final user = UserModel.fromJson({...decodedToken, "id": decodedToken['sub']}).toDomain();
       return Right(user);
     } catch (e) {
-      return const Left(Failure.formatException());
+      return Left(Failure.formatException(e as FormatException));
     }
   }
 }

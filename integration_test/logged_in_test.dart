@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:bid_for_cars/core/entities/user.dart';
 import 'package:bid_for_cars/infrastructure/mocks/mocks.dart';
 import 'package:bid_for_cars/infrastructure/models/car/car_thumbnail_model.dart';
@@ -11,16 +12,18 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockAppRouter extends Mock implements AppRouter {}
+import 'logged_in_test.mocks.dart';
 
-class MockAuthCubit extends Mock implements AuthCubit {}
-
-class MockHomeCubit extends Mock implements HomeCubit {}
-
-class MockUser extends Mock implements User {}
-
+@GenerateNiceMocks([
+  MockSpec<AppRouter>(),
+  MockSpec<RouterConfig<UrlState>>(as: #MockRouterConfigWithUrlState),
+  MockSpec<AuthCubit>(),
+  MockSpec<HomeCubit>(),
+  MockSpec<User>(),
+])
 void main() {
   late MockAppRouter mockAppRouter;
   late MockAuthCubit mockAuthCubit;
@@ -34,11 +37,12 @@ void main() {
     mockUser = MockUser();
 
     /// injected mocks' methods
-    when(mockAppRouter.config).thenReturn(AppRouter().config());
-    when(mockAuthCubit.checkAuth).thenAnswer((_) async {});
-    when(mockAuthCubit.close).thenAnswer((_) async {});
-    when(mockHomeCubit.init).thenAnswer((_) async {});
-    when(mockHomeCubit.close).thenAnswer((_) async {});
+    final router = AppRouter().config();
+    when(mockAppRouter.config()).thenReturn(router);
+    when(mockAuthCubit.checkAuth()).thenAnswer((_) async {});
+    when(mockAuthCubit.close()).thenAnswer((_) async {});
+    when(mockHomeCubit.init()).thenAnswer((_) async {});
+    when(mockHomeCubit.close()).thenAnswer((_) async {});
 
     /// DI
     getIt.registerSingleton<AppRouter>(mockAppRouter);
@@ -46,8 +50,9 @@ void main() {
     getIt.registerSingleton<HomeCubit>(mockHomeCubit);
   });
 
-  Widget createWidgetUnderTest() {
-    return const App();
+  createWidgetUnderTest(WidgetTester tester) async {
+    runApp(const App());
+    await tester.pump();
   }
 
   testWidgets(
@@ -101,7 +106,7 @@ void main() {
       );
 
       // act
-      await tester.pumpWidget(createWidgetUnderTest());
+      await createWidgetUnderTest(tester);
       // assert
       await tester.pump();
       expect(find.byType(LinearProgressIndicator), findsOneWidget);

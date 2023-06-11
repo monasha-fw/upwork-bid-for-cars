@@ -4,6 +4,17 @@ import 'package:dartz/dartz.dart';
 import 'value_objects.dart';
 import 'value_validators.dart';
 
+class UserId extends ValueObject<String> {
+  @override
+  final Either<ValueFailure<String>, String> value;
+
+  factory UserId(String input) {
+    return UserId._(validateUserId(input));
+  }
+
+  const UserId._(this.value);
+}
+
 class EmailAddress extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;

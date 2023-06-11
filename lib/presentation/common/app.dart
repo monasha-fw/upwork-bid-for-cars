@@ -14,21 +14,20 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AuthCubit>(),
+      create: (context) => getIt<AuthCubit>()..checkAuth(),
 
       /// Translations wrapper
       child: TranslationProvider(
         child: Builder(builder: (context) {
           /// Material app initialization
           return MaterialApp.router(
-            title: 'Carsxchange',
+            onGenerateTitle: (context) => t.common.appTitle,
             debugShowCheckedModeBanner: false,
             themeMode: ThemeMode.light,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             routerConfig: getIt<AppRouter>().config(),
             locale: TranslationProvider.of(context).flutterLocale,
-            // use provider
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
           );

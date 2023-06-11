@@ -87,12 +87,12 @@ class _RegisterPageState extends State<RegisterPage> {
           body: BlocConsumer<RegisterCubit, RegisterState>(
             listener: (ctx, state) {
               if (state.result.isSome()) {
-                if (state.result.asSome().isRight()) {
+                if (state.result.asSome.isRight()) {
                   /// navigate to register success
                   context.router.replaceAll([const LoginRoute(), const RegistrationSuccessRoute()]);
                 } else {
                   /// show error message on failure
-                  final error = state.result.asSome().asLeft();
+                  final error = state.result.asSome.asLeft;
                   context.scaffoldMessenger.showSnack(error, SnackbarType.error);
                 }
               }

@@ -1,29 +1,26 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'auth_failures.dart';
+import 'cache_failures.dart';
 import 'network_failure.dart';
 
 part 'failures.freezed.dart';
 
 @freezed
 class Failure<T> with _$Failure<T> {
-  /// Sub failures
+  /// General failures
+  const factory Failure.ignoringFailure() = _IgnoringFailure;
+
+  const factory Failure.formatException(FormatException exception) = _FormatException;
+
+  const factory Failure.unableToProcess(String error) = _UnableToProcess;
+
+  const factory Failure.unexpectedError(String message) = _UnexpectedError;
+
+  /// Nested failures
+  const factory Failure.authFailure(AuthFailure f) = _AuthFailure;
+
   const factory Failure.networkFailure(NetworkFailure f) = _NetworkFailure;
 
-  /// Common failures
-  const factory Failure.cacheClearFailure(
-      {@Default("Failed to clear data from device") String message}) = CacheClearFailure;
-
-  const factory Failure.cacheSetFailure(
-      {@Default("Failed to save data to device") String message}) = CacheSetFailure;
-
-  const factory Failure.cacheGetFailure(
-      {@Default("Failed to retrieve data from device") String message}) = CacheGetFailure;
-
-  const factory Failure.ignoringFailure() = IgnoringFailure;
-
-  const factory Failure.formatException() = FormatException;
-
-  const factory Failure.unableToProcess(dynamic error) = UnableToProcess;
-
-  const factory Failure.unexpectedError(String message) = UnexpectedError;
+  const factory Failure.cacheFailure(CacheFailure f) = _CacheFailure;
 }

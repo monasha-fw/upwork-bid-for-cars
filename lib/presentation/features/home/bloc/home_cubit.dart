@@ -35,7 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, List<CarThumbnail>> errOrResult = result.fold(
-      (Failure l) => Left(l.getMessage()),
+      (Failure l) => Left(l.getMessage),
       (r) {
         final live = r.where((c) => c.status == CarStatusEnum.live).toList()
           ..sort((a, b) => (a.expiresIn).compareTo(b.expiresIn));
@@ -56,7 +56,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, List<CarThumbnail>> errOrResult = result.fold(
-      (Failure l) => Left(l.getMessage()),
+      (Failure l) => Left(l.getMessage),
       (r) => Right(r..sort((a, b) => (a.expiresIn).compareTo(b.expiresIn))),
     );
 
@@ -71,7 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, List<CarThumbnail>> errOrResult = result.fold(
-      (Failure l) => Left(l.getMessage()),
+      (Failure l) => Left(l.getMessage),
       (r) => Right(r..sort((a, b) => (b.expiresIn).compareTo(a.expiresIn))),
     );
 
@@ -80,19 +80,19 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void updateAsExpired(String id) {
-    final car = state.allCars.asSome().asRight().firstWhereOrNull((c) => c.id == id);
+    final car = state.allCars.asSome.asRight.firstWhereOrNull((c) => c.id == id);
     if (car != null) {
       final updatedCar = car.copyWith(status: CarStatusEnum.expired);
 
-      final live = state.liveCars.asSome().asRight()
+      final live = state.liveCars.asSome.asRight
         ..remove(car)
         ..sort((a, b) => (a.expiresIn).compareTo(b.expiresIn));
-      final expired = state.expiredCars.asSome().asRight()
+      final expired = state.expiredCars.asSome.asRight
         ..add(updatedCar)
         ..sort((a, b) => (b.expiresIn).compareTo(a.expiresIn));
 
       /// all cars
-      final all = state.allCars.asSome().asRight()
+      final all = state.allCars.asSome.asRight
         ..remove(car)
         ..add(updatedCar);
 

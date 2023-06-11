@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'injection.dart';
 import 'presentation/common/app.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// injectable initialization

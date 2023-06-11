@@ -2,7 +2,7 @@ name: "Build & Release"
 
 on:
   push:
-    branches: [ 'main','staging' ]
+    branches: [ 'main' ]
 
   # for manual run
   workflow_dispatch:

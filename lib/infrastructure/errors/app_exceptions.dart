@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:bid_for_cars/core/errors/error.dart';
 import 'package:bid_for_cars/core/errors/failures.dart';
 import 'package:bid_for_cars/core/errors/network_failure.dart';
+import 'package:bid_for_cars/i18n/translations.g.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,19 +19,23 @@ class AppExceptions with _$AppExceptions {
 
   static Failure exceptionToFailure(error) {
     log("[FAILURE] $error");
-    if (error is PlatformException) {
+    if (error is UnexpectedValueError) {
+      return Failure.unableToProcess(
+        error.valueFailure.failedValue?.toString() ?? t.common.errors.somethingWentWrong,
+      );
+    } else if (error is PlatformException) {
       return _getPlatformException(error);
     } else if (error is Exception) {
       try {
         return Failure.networkFailure(_getDioException(error));
-      } on FormatException catch (_) {
-        return const Failure.formatException();
+      } on FormatException catch (e) {
+        return Failure.formatException(e);
       } catch (ex) {
         return Failure.unexpectedError(ex.toString());
       }
     } else {
       if (error.toString().contains("is not a subtype of")) {
-        return Failure.unableToProcess(error);
+        return Failure.unableToProcess(error.toString());
       } else {
         return Failure.unexpectedError(error);
       }
@@ -50,21 +56,26 @@ class AppExceptions with _$AppExceptions {
 
   static NetworkFailure _getDioException(error) {
     late NetworkFailure networkFailure;
-    if (error is DioError) {
+    if (error is DioException) {
       switch (error.type) {
-        case DioErrorType.cancel:
-          networkFailure = const NetworkFailure.requestCancelled();
-          break;
-        case DioErrorType.connectTimeout:
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.sendTimeout:
           networkFailure = const NetworkFailure.requestTimeout();
           break;
-        case DioErrorType.other:
-          networkFailure = const NetworkFailure.connectionRefused();
+        case DioExceptionType.badCertificate:
+          networkFailure = const NetworkFailure.badCertificate();
           break;
-        case DioErrorType.receiveTimeout:
-          networkFailure = const NetworkFailure.sendTimeout();
+        case DioExceptionType.badResponse:
+          networkFailure = const NetworkFailure.badResponse();
           break;
-        case DioErrorType.response:
+        case DioExceptionType.cancel:
+          networkFailure = const NetworkFailure.requestCancelled();
+          break;
+        case DioExceptionType.connectionError:
+          networkFailure = const NetworkFailure.connectionError();
+          break;
+        case DioExceptionType.unknown:
           switch (error.response?.statusCode) {
             case 400:
               networkFailure = NetworkFailure.unauthorisedRequest(error.response?.data);
@@ -95,9 +106,6 @@ class AppExceptions with _$AppExceptions {
               networkFailure =
                   NetworkFailure.defaultError("Received invalid status code: $responseCode");
           }
-          break;
-        case DioErrorType.sendTimeout:
-          networkFailure = const NetworkFailure.sendTimeout();
           break;
       }
     } else if (error is SocketException) {

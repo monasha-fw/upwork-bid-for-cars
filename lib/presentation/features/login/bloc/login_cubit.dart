@@ -44,7 +44,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     /// Extract message from the failure and pass it to the UI
     Either<String, User>? errOrResult =
-        result?.fold((Failure l) => Left(l.getMessage()), (r) => Right(r));
+        result?.fold((Failure l) => Left(l.getMessage), (r) => Right(r));
 
     /// if action was a [success], wait till the other processors to finish, else stop processing UI
     emit(state.copyWith(result: optionOf(errOrResult), showErrors: true, processing: false));

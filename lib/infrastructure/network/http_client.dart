@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bid_for_cars/i18n/translations.g.dart';
 import 'package:bid_for_cars/infrastructure/constants/endpoint_urls.dart';
 import 'package:bid_for_cars/infrastructure/mocks/mocks.dart';
 import 'package:dio/dio.dart';
@@ -7,11 +8,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:injectable/injectable.dart';
 
 import 'i_http_client.dart';
-import 'i_network_info.dart';
-
-const String _baseUrl = EndpointUrls.baseUrl;
-const _defaultConnectTimeout = Duration.millisecondsPerMinute;
-const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
+import 'network_info.dart';
 
 /// will bypass accessToken check on these urls
 const noneAuthedRoute = [
@@ -24,30 +21,16 @@ class AppHttpClient implements IHttpClient {
   final INetworkInfo networkInfo;
   final DioAdapter dioAdapter;
 
-  AppHttpClient(
-    this.dio,
-    this.networkInfo,
-    this.dioAdapter,
-  ) {
-    dio
-      ..options.baseUrl = _baseUrl
-      ..options.connectTimeout = _defaultConnectTimeout
-      ..options.receiveTimeout = _defaultReceiveTimeout
-      ..httpClientAdapter
+  AppHttpClient(this.dio, this.networkInfo, this.dioAdapter) {
+    /// TODO - Mocks only for testing without a server
+    dio.httpClientAdapter = dioAdapter;
+    MockingData.init(dioAdapter);
+  }
 
-      /// TODO - Mocks only for testing without a server
-      ..httpClientAdapter = dioAdapter;
-    DioMocks().init(dioAdapter);
-
-    /// refresh token interceptor
-    dio.interceptors.add(
-      QueuedInterceptorsWrapper(
-        onRequest: (options, handler) async {
-          /// check if the token is appended from the datasource function
-          return handler.next(options);
-        },
-      ),
-    );
+  /// internet connectivity check
+  Future<void> _checkInternetConnectivity() async {
+    print("await networkInfo.isConnected ${!(await networkInfo.isConnected)}");
+    if (!(await networkInfo.isConnected)) throw SocketException(t.common.errors.noInternet);
   }
 
   @override
@@ -58,43 +41,31 @@ class AppHttpClient implements IHttpClient {
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
-    }
+    await _checkInternetConnectivity();
 
-    try {
-      var newOptions = options ?? Options(contentType: Headers.jsonContentType);
+    var newOptions = options ?? Options(contentType: Headers.jsonContentType);
 
-      Response response = await dio.get(
-        uri,
-        queryParameters: queryParameters,
-        options: newOptions,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return response;
-    } on SocketException catch (e) {
-      throw SocketException(e.toString());
-    } on FormatException catch (_) {
-      throw const FormatException();
-    } catch (e) {
-      rethrow;
-    }
+    Response response = await dio.get(
+      uri,
+      queryParameters: queryParameters,
+      options: newOptions,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+    );
+    return response;
   }
 
   @override
   Future<Response> post(
     String uri, {
-    data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
-    }
+    await _checkInternetConnectivity();
 
     try {
       var newOptions = options ?? Options(contentType: Headers.jsonContentType);
@@ -121,13 +92,11 @@ class AppHttpClient implements IHttpClient {
   Future<dynamic> delete(
     String uri, {
     Map<String, dynamic>? queryParameters,
-    data,
+    Object? data,
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
-    }
+    await _checkInternetConnectivity();
 
     try {
       var response = await dio.delete(
@@ -149,15 +118,13 @@ class AppHttpClient implements IHttpClient {
   Future<dynamic> patch(
     String uri, {
     Map<String, dynamic>? queryParameters,
-    data,
+    Object? data,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
     ProgressCallback? onSendProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
-    }
+    await _checkInternetConnectivity();
 
     try {
       var response = await dio.patch(
@@ -181,15 +148,13 @@ class AppHttpClient implements IHttpClient {
   Future<dynamic> put(
     String uri, {
     Map<String, dynamic>? queryParameters,
-    data,
+    Object? data,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
     ProgressCallback? onSendProgress,
   }) async {
-    if (!(await networkInfo.isConnected)) {
-      throw const SocketException("No working internet connections found");
-    }
+    await _checkInternetConnectivity();
 
     try {
       var response = await dio.put(

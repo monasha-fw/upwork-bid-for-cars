@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       }
 
                       final List<CarThumbnail> cars =
-                          state.allCars.isSome() && state.allCars.asSome().isRight()
-                              ? state.allCars.asSome().asRight()
+                          state.allCars.isSome() && state.allCars.asSome.isRight()
+                              ? state.allCars.asSome.asRight
                               : [];
                       return ListView.builder(
                         itemCount: cars.length,
@@ -122,8 +122,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       }
 
                       final List<CarThumbnail> cars =
-                          state.liveCars.isSome() && state.liveCars.asSome().isRight()
-                              ? state.liveCars.asSome().asRight()
+                          state.liveCars.isSome() && state.liveCars.asSome.isRight()
+                              ? state.liveCars.asSome.asRight
                               : [];
                       return ListView.builder(
                         itemCount: cars.length,
@@ -143,8 +143,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       }
 
                       final List<CarThumbnail> cars =
-                          state.expiredCars.isSome() && state.expiredCars.asSome().isRight()
-                              ? state.expiredCars.asSome().asRight()
+                          state.expiredCars.isSome() && state.expiredCars.asSome.isRight()
+                              ? state.expiredCars.asSome.asRight
                               : [];
 
                       return ListView.builder(

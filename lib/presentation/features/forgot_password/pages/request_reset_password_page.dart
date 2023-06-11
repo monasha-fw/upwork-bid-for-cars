@@ -60,12 +60,12 @@ class _RequestResetPasswordPageState extends State<RequestResetPasswordPage> {
           body: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
             listener: (ctx, state) {
               if (state.result.isSome()) {
-                if (state.result.asSome().isRight()) {
+                if (state.result.asSome.isRight()) {
                   /// navigate to previous page
                   context.router.push(ResetPasswordRoute(email: state.email));
                 } else {
                   /// show error message on failure
-                  final error = state.result.asSome().asLeft();
+                  final error = state.result.asSome.asLeft;
                   context.scaffoldMessenger.showSnack(error, SnackbarType.error);
                 }
               }

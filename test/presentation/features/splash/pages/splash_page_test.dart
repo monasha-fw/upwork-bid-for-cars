@@ -58,6 +58,7 @@ void main() {
         // arrange
         // act
         await tester.pumpWidget(createWidgetUnderTest());
+        await tester.pump();
         // assert
         expect(find.byType(LinearProgressIndicator), findsOneWidget);
       },

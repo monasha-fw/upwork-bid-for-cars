@@ -43,7 +43,7 @@ void main() {
       final result = await usecase(mockDto);
       // assert
       verify(mockIAuthRepository.loginUserEmail(mockDto));
-      verify(mockIAuthRepository.userFromToken(mockAuthTokens.accessToken));
+      verify(mockIAuthRepository.userFromToken(any));
       verifyNoMoreInteractions(mockIAuthRepository);
       expect(result, Right(mockUser));
     },

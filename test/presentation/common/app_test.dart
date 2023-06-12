@@ -2,7 +2,6 @@ import 'package:bid_for_cars/injection.dart';
 import 'package:bid_for_cars/presentation/common/app.dart';
 import 'package:bid_for_cars/presentation/common/bloc/auth/auth_cubit.dart';
 import 'package:bid_for_cars/presentation/routes/router.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -25,15 +24,15 @@ void main() {
     when(mockAuthCubit.checkAuth()).thenAnswer((_) async {});
     when(mockAuthCubit.close()).thenAnswer((_) async {});
 
+    // whenListen(
+    //   mockAuthCubit,
+    //   Stream<AuthState>.fromIterable([]),
+    //   initialState: const AuthInitial(),
+    // );
+
     /// DI
     getIt.registerSingleton<AppRouter>(mockAppRouter);
     getIt.registerSingleton<AuthCubit>(mockAuthCubit);
-
-    whenListen(
-      mockAuthCubit,
-      Stream<AuthState>.fromIterable([]),
-      initialState: const AuthInitial(),
-    );
   });
 
   Future<void> createWidgetUnderTest(WidgetTester tester) async {

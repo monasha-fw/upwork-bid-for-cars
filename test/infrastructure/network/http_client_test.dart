@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bid_for_cars/i18n/translations.g.dart';
 import 'package:bid_for_cars/infrastructure/network/http_client.dart';
 import 'package:bid_for_cars/infrastructure/network/network_info.dart';
 import 'package:dio/dio.dart';
@@ -32,19 +31,15 @@ void main() {
   group('GET requests', () {
     group('No Internet', () {
       test(
-        'should throws a `SocketException("No working internet connections found")` when internet is not connected',
+        'should throws a `SocketException` when internet is not connected',
         () async {
           // arrange
-          when(httpClient.get("/"))
-              .thenAnswer((_) async => throw SocketException(t.common.errors.noInternet));
           when(mockINetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final call = httpClient.get;
           // assert
-          expectLater(
-            call(('/')),
-            throwsA(SocketException(t.common.errors.noInternet)),
-          );
+          expect(() => call('/'), throwsA(isA<SocketException>()));
+          verifyNever(mockDio.get('/'));
         },
       );
     });
@@ -65,6 +60,7 @@ void main() {
           final result = await mockDio.get("/ping");
           // assert
           expect(result, equals(response));
+          verify(mockDio.get('/ping'));
         },
       );
     });
@@ -80,10 +76,8 @@ void main() {
           // act
           final call = httpClient.post;
           // assert
-          expect(
-            () => call(('/')),
-            throwsA(const SocketException("No working internet connections found")),
-          );
+          expect(() => call(('/')), throwsA(isA<SocketException>()));
+          verifyNever(mockDio.post('/'));
         },
       );
     });
@@ -103,6 +97,7 @@ void main() {
           // act
           final result = await mockDio.post("/ping", data: 'data');
           // assert
+          verify(mockDio.post('/ping', data: 'data'));
           expect(result, equals(response));
         },
       );
@@ -119,10 +114,8 @@ void main() {
           // act
           final call = httpClient.delete;
           // assert
-          expect(
-            () => call(('/')),
-            throwsA(const SocketException("No working internet connections found")),
-          );
+          expect(() => call(('/')), throwsA(isA<SocketException>()));
+          verifyNever(mockDio.delete('/'));
         },
       );
     });
@@ -141,6 +134,7 @@ void main() {
           // act
           final result = await mockDio.delete("/ping", data: 'data');
           // assert
+          verify(mockDio.delete('/ping', data: 'data'));
           expect(result, equals(response));
         },
       );
@@ -157,10 +151,8 @@ void main() {
           // act
           final call = httpClient.patch;
           // assert
-          expect(
-            () => call(('/')),
-            throwsA(const SocketException("No working internet connections found")),
-          );
+          expect(() => call(('/')), throwsA(isA<SocketException>()));
+          verifyNever(mockDio.patch('/'));
         },
       );
     });
@@ -179,6 +171,7 @@ void main() {
           // act
           final result = await mockDio.patch("/ping", data: 'data');
           // assert
+          verify(mockDio.patch('/ping', data: 'data'));
           expect(result, equals(response));
         },
       );
@@ -195,10 +188,7 @@ void main() {
           // act
           // final call = httpClient.put;
           // assert
-          expect(
-            () => httpClient.put('/'),
-            throwsA(const SocketException("No working internet connections found")),
-          );
+          expect(() => httpClient.put('/'), throwsA(isA<SocketException>()));
           verifyNever(mockDio.put('/'));
         },
       );

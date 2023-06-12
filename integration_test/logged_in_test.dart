@@ -41,6 +41,11 @@ void main() {
     when(mockAuthCubit.close()).thenAnswer((_) async {});
     when(mockHomeCubit.init()).thenAnswer((_) async {});
     when(mockHomeCubit.close()).thenAnswer((_) async {});
+    whenListen(
+      mockAuthCubit,
+      Stream<AuthState>.fromIterable([]),
+      initialState: const AuthInitial(),
+    );
 
     /// DI
     getIt.registerSingleton<AuthCubit>(mockAuthCubit);
@@ -65,12 +70,7 @@ void main() {
           MockingData.liveCarsData.map((e) => CarThumbnailModel.fromJson(e).toDomain()).toList();
       final expiredCars =
           MockingData.expiredCarsData.map((e) => CarThumbnailModel.fromJson(e).toDomain()).toList();
-      whenListen(
-        mockAuthCubit,
-        // Stream<AuthState>.fromIterable([const AuthProcessing(), Authenticated(mockUser)]),
-        Stream<AuthState>.fromIterable([]),
-        initialState: const AuthInitial(),
-      );
+
       whenListen(
         mockHomeCubit,
         Stream<HomeState>.fromIterable([

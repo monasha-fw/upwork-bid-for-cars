@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bid_for_cars/presentation/common/bloc/auth/auth_cubit.dart';
 import 'package:bid_for_cars/presentation/extensions/context.dart';
-import 'package:bid_for_cars/presentation/routes/router.dart';
+import 'package:bid_for_cars/presentation/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 @RoutePage()
 class SplashPage extends StatelessWidget {
@@ -15,9 +14,9 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go(Routes.homePage.path);
+          context.router.replace(const HomeRoute());
         } else if (state is Unauthenticated) {
-          context.go(Routes.onboardingPage.path);
+          context.router.replace(const OnboardingRoute());
         }
       },
       child: Scaffold(

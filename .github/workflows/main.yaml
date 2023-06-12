@@ -2,7 +2,7 @@ name: "Build & Release"
 
 on:
   push:
-    branches: [ 'main','staging' ]
+    branches: [ 'main' ] # ,'staging'
 
   # for manual run
   workflow_dispatch:
@@ -45,7 +45,7 @@ jobs:
       - run: flutter packages pub run build_runner clean
       - run: flutter packages pub run build_runner build -d
       - run: flutter pub run slang
-      #      - run: flutter test
+      - run: flutter test
 
       # Get version from pubspec.yaml
       - name: Get version

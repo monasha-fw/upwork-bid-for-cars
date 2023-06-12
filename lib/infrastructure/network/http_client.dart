@@ -29,7 +29,6 @@ class AppHttpClient implements IHttpClient {
 
   /// internet connectivity check
   Future<void> _checkInternetConnectivity() async {
-    print("await networkInfo.isConnected ${!(await networkInfo.isConnected)}");
     if (!(await networkInfo.isConnected)) throw SocketException(t.common.errors.noInternet);
   }
 

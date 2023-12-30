@@ -1,3 +1,4 @@
+
 <a name="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
@@ -13,6 +14,35 @@
 [comment]: <> ([![MIT License][license-shield]][license-url])
 
 [comment]: <> ([![LinkedIn][linkedin-shield]][linkedin-url])
+
+## Testing the app
+
+<p>Regarding testing the app, I have used mock http calls to mimic the backend features. Therefore please follow the below instructions for the desired results when testing the app.
+
+Login -
+For success - email= user@mail.com, password= Qwe12345
+For failure - email= user@mail.com, password= Qwe123456
+
+Register -
+For success - firstName: John, lastName: Doe, email: user@mail.com, password: Qwe12345
+For Failure - firstName: John, lastName: Doe, email: someone@mail.com, password: Qwe12345
+
+Forgot Password -
+For success - email: user@mail.com
+For Failure - email: someone@mail.com
+
+Reset Forgotten Password -
+For success - email: user@mail.com, code: 123456, password: Qwe12345
+For Failure - email: user@mail.com, code: 654321, password: Qwe12345
+
+None of these data is hard coded. Using an interceptor for the 'dio' library, data mocking was implemented.
+The project is simply production ready. All that requires is to change the URLs for the backend APIs. Which can be found under the constants in the infrastructure layer.
+
+Once you log in to the app and visit the home page, which contains the all-cars list, you'll notice that the timer is running for live items. And if you take a look at the 1st item closely you'll notice that it'll be expired in 15 seconds of time. Once it's expired, the bid button and the status button will be changed according to, as well as if you're in the 'live' or 'expired' tabs, you'll see the list is updated. I have sorted the items in order to maximize the User's experience. So the expired ones will be at the bottom of the all cars tab, sorted with expired last at the top. In the same list, you'll see the live items are also in the opposite order, being the soonest expiring item at the top.
+
+Also, you will find samples for all three types of test types that are available for Flutter (unit, widget, and integration testing). Further, I have added a CICD pipeline using a yaml file to trigger APK builds when the main branch is pushed with a new release. Which can be extended to automatic deployments to the Google PlayStore.
+<p/>
+<br />
 
 <!-- PROJECT LOGO -->
 <br />
